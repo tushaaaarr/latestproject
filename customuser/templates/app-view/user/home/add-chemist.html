@@ -1,0 +1,140 @@
+{% extends 'app-view/user/layouts/base.html' %}
+{% block title %} Add-your-chemist {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    .fileUpload {
+        background-color: indigo;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+        width: 80px;
+        font-size: 12px;
+    }
+
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+
+    }
+
+    .deliver_partner label {
+        margin-top: 15px;
+        font-weight: bolder;
+        font-size: 14px;
+    }
+    #sign_in_loader {
+    height: 14px !important;
+    width: 14px;
+    margin-left: 10px;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class='container' style="background-color: #FFFFFF;">
+        <div class=''>
+            <div class="mt-3 container deliver_partner">
+                <form method="POST" name="inputForm" enctype='multipart/form-data'>
+                    <input type="hidden" name="csrfmiddlewaretoken"
+                        value="FFAOxbNTseumb21hEXEnGueI3hlS41jLb9i1Y05tGZyk1Jje7GcQC5wVNFNuEzQW">
+                    <br>
+                    <label style='margin-bottom:3px;margin-left:2px;'>1.Chemist located city </label>
+                    <select class="form-control select_city" name='select_city' required>
+                        <option class='active ' style='margin-left:0px;padding-left:0px;'>Select Delivery City</optxion>
+                        <option value='nipani'>Nipani</option>
+                        <option value='jaysingpur'>Jaysingpur</option>
+                        <option value='kolhapur'>Kolhapur</option>
+                        <option value='pune'>Pune</option>
+                    </select>
+                    <label for="inputname">2.Chemist owner (full name)</label>
+                    <input type="name" class="form-control" name="storeowner" placeholder="Chemist owner name" required>
+                    <label for="inputname">3.Chemist name</label>
+                    <input type="text" class="form-control" name="storename" placeholder="Enter Chemist name" required>
+
+                    <label for="inputname">5.Address</label>
+                    <input type="text" class="form-control" name="storeaddress" placeholder="Enter Chemist address"
+                        required>
+
+                    <label for="inputname">6.Google/Phone Pay mobile number</label>
+                    <input type="phone" class="form-control" name="storemobile" placeholder="Enter Chemist address"
+                        required>
+                    
+                   <label>7.Upload your drugs licence</label>
+                    <input id="uploadFile1" placeholder="Choose File" disabled="disabled" required />
+                    <div class="fileUpload btn btn-primary mt-1" style='margin-top:0px;'>
+                        <span>Select</span>
+                        <input id="uploadBtn1" type="file" class="upload" name='storelicence' />
+                </div>
+                    <br>
+                    <label>8.Upload adhar card photo</label>
+                    <input id="uploadFile2" placeholder="Choose File" disabled="disabled" />
+                    <div class="fileUpload btn btn-primary mt-1" style='margin-top:0px;'>
+                        <span>Select</span>
+                        <input id="uploadBtn2" type="file" class="upload" name='storeadhar' />
+                    </div>
+                    <label >9.Upload PAN card photo</label>
+                    <input id="uploadFile3" placeholder="Choose File" disabled="disabled" />
+                    <div class="fileUpload btn btn-primary mt-1" style='margin-top:0px;'>
+                        <span>Select</span>
+                        <input id="uploadBtn3" type="file" class="upload" name='storepan' />
+                    </div>
+                    <label >10.Upload Store photo (Front view)</label>
+                    <input id="uploadFile4" placeholder="Choose File" disabled="disabled" />
+                    <div class="fileUpload btn btn-primary mt-1" style='margin-top:0px;'>
+                        <span>Select</span>
+                        <input id="uploadBtn4" type="file" class="upload" name='storephoto' />
+                    </div>
+                    <div class='text-center'>
+                        <button type="submit" class="btn btn-outline bg-gradient-primary w-100 mt-1 "  id='submit_btn'>Send</button>
+                </form>
+            </div>
+            <br>
+        </div>
+    </div>
+</div>
+</div>
+
+{% include "includes/footer.html" %}
+</div>
+
+
+<!-- End of Modal Content -->
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    document.getElementById("uploadBtn1").onchange = function () {
+        document.getElementById("uploadFile1").value = this.value;
+    };
+    document.getElementById("uploadBtn2").onchange = function () {
+        document.getElementById("uploadFile2").value = this.value;
+    };
+    document.getElementById("uploadBtn3").onchange = function () {
+        document.getElementById("uploadFile3").value = this.value;
+    };
+    document.getElementById("uploadBtn4").onchange = function () {
+        document.getElementById("uploadFile4").value = this.value;
+    };
+
+
+  $('#submit_btn').click(function () {
+    console.log(document.getElementById('submit_btn').innerHTML = `Processing..<span class="spinner-border" role="status" 
+    id='sign_in_loader'>
+  </span>`)
+  });
+</script>
+{% endblock javascripts %}

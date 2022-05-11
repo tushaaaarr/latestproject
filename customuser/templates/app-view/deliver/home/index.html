@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get-new-delivery </title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+  .modal h1 {
+    font-family: 'Inknut Antiqua', serif;
+    font-size: 2.5em;
+    margin-bottom: .25em;
+    color: #fff;
+  }
+
+  .modal h2 {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.2em;
+    margin: 2em 0;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    line-height: 1.75em;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+
+  .modal-button {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    margin-bottom: 1.5em;
+    background: #fff;
+    cursor: pointer;
+    min-width: 38px;
+    font-size: 1em;
+  }
+
+  .modal {
+    position: absolute;
+    margin: 0px;
+    background: #fff;
+    padding: 80px 20px 20px;
+    overflow: hidden;
+    height: 400px;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+    top: 0px;
+    margin-left: auto;
+  }
+
+  #timer_line {
+    margin-left: 20%;
+    position: absolute;
+    top: 0px;
+    left: 80px;
+    color: #333;
+    font-weight: 700;
+
+  }
+
+  .modal-title {
+    position: absolute;
+    font-size: 14px;
+    top: 15px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+  }
+
+  .distance {
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin: 0px;
+  }
+
+  .storename {
+    font-weight: 700;
+    color: #333;
+    margin: 0px;
+  }
+
+  .storeadd {
+    font-weight: 500;
+    color: #333;
+    margin: 0px;
+  }
+
+  .map_image img {
+    height: 140px;
+    border-radius: 70%;
+    border: solid #DCDCDC;
+  }
+
+  .map_image {
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .modal-button {
+    background: #e20540;
+    color: #fff;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+  }
+
+  #acceptbtn {
+    width: 100%;
+    background-color: #000080;
+    color: #fff;
+    margin-top: 20px;
+    padding: 7px;
+    font-size: 13px;
+    border: none;
+    border-radius: 20px;
+    margin-bottom: 1.5em;
+    cursor: pointer;
+    height: 40px;
+    font-weight: 700;
+  }
+
+  #acceptbtn:hover {
+    color: #000080;
+    background-color: #fff;
+    border: solid #000080;
+    border-width: 0.5px;
+  }
+
+  #first_box {
+    background-color: #696969 !important;
+    text-align: center;
+    margin-left: auto;
+  }
+
+  #second_box {
+    padding-right: 10px;
+    padding-top: 10px;
+    background-color: #fff !important;
+    width: 100%;
+  }
+</style>
+<body>
+  <section>
+    <div class='modal-wrapper'>
+      <div class='modal' id='modal'>
+      </div>
+    </div>
+    <div class='menu_bar'>
+      <span id='home' class='step {{home_step}}' onclick='HomeUrl()'>
+        <i class="fa fa-home"></i></span>
+      <span id='myorder' class='step {{myorder_step}}' onclick='MyOrdersUrl()'>
+        <i class="gg-shopping-bag"></i></span>
+      <span id='account' class='step {{account_step}}' data-toggle="modal" data-target="#modal-left"
+        data-toggle-class="modal-open-aside" onclick='AccountUrl()'>
+        <i class="fa fa-user"></i></span>
+    </div>
+
+    <!-- partial -->
+    <script>
+      const contentWrapper = document.querySelector('.content-wrapper');
+      const modalWrapper = document.querySelector('.modal-wrapper');
+      const modalButtons = document.querySelectorAll('.modal-toggle');
+      modalButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          modalWrapper.classList.toggle('modal--active');
+        });
+      });
+      //Get Delivery Request Notifications
+      $(document).ready(function () {
+        setInterval(function () {
+          $.ajax({
+            type: 'GET',
+            url: '/get-new-delivery',
+            success: function (response) {
+              var mydata = response.data;
+              if (response.timer != undefined) {
+                console.log(response.timer, mydata)
+              }
+              if (mydata != undefined) {
+                if (mydata[0]['is_timeup'] == false) {
+                  //Delivery order requests -- 
+                  modalWrapper.classList.toggle('modal--active');
+                  document.getElementById('modal').innerHTML = `<div id='first_box' >
+              <p id='timer_line'>Order Ends in <span id='timer'>02:00</span></p>
+              <button class='modal-toggle modal-button'>&times;</button>
+              <h2 class='modal-title'>Medical delivery</h2>
+              <div class='modal-content'>
+                  <div class='map_image'>
+              <img src='https://images.indianexpress.com/2016/05/pune-759_google-maps.jpg'>
+                  </div>
+                <p class='distance'>approx distance 0.53 kms.</p>
+            </div>
+                <hr>
+                <div 
+                <div id='second_box' style='background-color: black'>
+                   <p class='storename'>Apollo medical store,jaysinpur</p>
+                   <p class='storeadd'>Ashok nagar,2nd lane,Nipani </p> 
+                   <form method='post'>
+                  {% csrf_token %}
+                   <button id='acceptbtn' class='btn btn-outline' name='accept_btn' value='${mydata[0].id}'>Accept order</button>
+                   </form>
+          </div>
+            </div>`
+                  var minute = 1;
+                  var sec = 60;
+                  setInterval(function () {
+                    document.getElementById("timer").innerHTML = minute + " : " + sec;
+                    sec--;
+                    if (sec == 00) {
+                      minute--;
+                      sec = 60;
+                      if (minute == 0) {
+                        console.log('Closed..!!!');
+                        modalWrapper.classList.remove('modal--active');
+                      }
+                    }
+                  }, 1000);
+                }
+                else {
+                  console.log('True...')
+                }
+              }
+              for (var key in mydata) {
+                console.log('pass')
+              }
+            },
+          });
+        }, 3000);
+      })
+    </script>
+    </div>
+    </div>
+    </div>
+  </section>
+</body>
+
+</html>

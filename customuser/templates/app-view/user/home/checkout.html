@@ -1,0 +1,826 @@
+{% extends 'app-view/user/layouts/base.html' %}
+{% block title %} CheckOut {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    .input_product {
+        font-size: 12px;
+        pding-left: 30px;
+        margin-left: 22px;
+        min-width: 200px;
+        width: auto;
+        height: 29px;
+        border: solid #DCDCDC;
+        border-width: 1px;
+        margin-top: 30px;
+        margin-bottom: 5px;
+        margin-right: 15px;
+    }
+
+    .packing option,
+    .type_box select {
+        color: #000080 !important;
+    }
+
+    .prod_quantity option,
+    .type_box select {
+        color: #000080 !important;
+    }
+
+    #skill_row input {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .input_product:focus {
+        outline: none;
+        border: 1px solid #000080 !important;
+        border-width: 1px;
+    }
+
+    .input_product {
+        font-size: 12px !important;
+    }
+
+    .prod_quantity {
+        height: 30px;
+        border: solid #DCDCDC;
+        border-width: 1px;
+        background: #fff;
+    }
+
+    .prod_quantity:focus {
+        outline: none;
+        border: 1px solid #000080 !important;
+        border-width: 1px;
+    }
+
+    .packing {
+        height: 30px;
+        border: solid #DCDCDC;
+        border-width: 1px;
+        margin: 4px;
+        background: #fff;
+    }
+
+    .packing:focus {
+        outline: none;
+        border: 1px solid #000080 !important;
+        border-width: 1px;
+    }
+
+    .type_box {
+        padding: 10px;
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .pers_form {
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 10px 20px;
+        border: 1px solid #DCDCDC;
+        border-radius: 20px;
+        outline: none;
+        margin-bottom: 10px;
+        text-align: center;
+        margin-bottom: 5px;
+        height: 40px;
+        width: 100%;
+    }
+
+    .pers_form:focus {
+        border: 1px solid #000080;
+        outline: none;
+    }
+
+    .un {
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 10px 20px;
+        border-radius: 20px;
+        outline: none;
+        margin-bottom: 10px;
+        text-align: center;
+        margin-bottom: 5px;
+        height: 40px;
+        width: 100%;
+        border: 1px solid #DCDCDC;
+    }
+
+    .un:focus {
+        border: 1px solid #000080 !important;
+    }
+
+    .packing {
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 1px;
+        border: none;
+        border-radius: 20px;
+        outline: none;
+        border: 2px solid rgba(0, 0, 0, 0.02);
+        text-align: center;
+        height: 40px;
+        margin: 0px;
+        margin-left: 20px;
+    }
+
+    .packing:focus {
+        border: 1px solid #89dee2 !important;
+    }
+
+    .packing select {
+        font-weight: bold;
+        text-align: left;
+        color: #000080;
+    }
+
+    .prod_quantity {
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        outline: none;
+        border: 2px solid rgba(0, 0, 0, 0.02);
+        margin-bottom: 10px;
+        text-align: center;
+        margin-bottom: 5px;
+        height: 40px;
+        margin-top: 0px !important;
+        margin-left: 20px;
+    }
+
+
+
+    .sec_div h4 span {
+        color: hsl(240, 100%, 25%);
+        position: absolute;
+        right: 15px;
+    }
+
+    .sec_div input {
+        background: rgba(136, 126, 126, 0.04);
+        border: 1px solid #DCDCDC;
+        margin-top: 4px;
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+
+    .sec_div input:focus {
+        outline: none;
+        border: 1px solid #000080;
+    }
+
+    #input_type_box p {
+        color: #000080;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+
+    /*Mobile - view*/
+    @media screen and (max-width: 768px) {
+        .imgs_block {
+            margin: 5px;
+        }
+
+        .main_page {
+            margin: 0px;
+            box-shadow: none;
+            padding: 0px;
+        }
+
+        .imgs {
+            border: solid rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            padding: 20px;
+            border-width: 0.5px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .imgs img {
+            width: 100% !important;
+        }
+
+        .img-box img {
+            height: 200px;
+            max-width: 200px;
+
+        }
+
+        .un {
+            width: 100%;
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+            height: 40px;
+        }
+
+        .un:focus {
+            border: 1px solid #000080 !important;
+        }
+
+        .packing {
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+            height: 40px;
+            margin: 0px;
+        }
+
+        .packing:focus {
+            border: 1px solid #000080 !important;
+        }
+
+        .packing select {
+            font-weight: bold;
+            color: #000080;
+        }
+
+        .prod_quantity {
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+            height: 40px;
+        }
+
+        .first_block {
+            background: #FFFFFF;
+            margin: 0px;
+            padding: 10px;
+        }
+
+        .main_container {}
+    }
+
+    .sec_div {
+        margin-top: 10px;
+    }
+
+    .un {
+        width: 100%;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    #add_button,
+    #remove_btn {
+        color: #000080;
+        font-weight: 700;
+        font-size: 13px;
+        margin-left: 15px;
+        margin-top: 10px;
+    }
+
+    .sec_div p {
+        font-size: 12px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        margin: 0px;
+        padding: 8px;
+        padding-left: 15px;
+        font-weight: 700;
+    }
+
+    .sec_div p:hover {
+        background-color: #DCDCDC;
+    }
+
+    .sec_div h4 {
+        font-weight: 700;
+        font-size: 16px !important;
+    }
+
+    .sec_div input {
+        height: 40px;
+    }
+
+    .btn_1,
+    .btn_2 {
+        width: 100%;
+        margin-top: 10px;
+        margin-left: auto;
+
+    }
+
+    .table_box {
+        background: #fff;
+        box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+    }
+
+    .table {
+        font-size: 11px;
+        font-weight: 500;
+        margin-left: 0px;
+        background-color: #fff !important;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        color: #525f7f;
+        background-color: transparent;
+    }
+
+    .table th,
+    .table td {
+        padding: 1rem;
+        vertical-align: top;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .table thead th {
+        vertical-align: bottom;
+        border-bottom: 2px solid #e9ecef;
+    }
+
+    .table tbody+tbody {
+        border-top: 2px solid #e9ecef;
+    }
+
+    .table-sm th,
+    .table-sm td {
+        padding: 0.5rem;
+    }
+
+    .table-bordered {
+        border: 1px solid #e9ecef;
+    }
+
+    .table-bordered th,
+    .table-bordered td {
+        border: 1px solid #e9ecef;
+    }
+
+    .table-bordered thead th,
+    .table-bordered thead td {
+        border-bottom-width: 2px;
+    }
+    .table-borderless th,
+    .table-borderless td,
+    .table-borderless thead th,
+    .table-borderless tbody+tbody {
+        border: 0;
+    }
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: rgba(246, 249, 252, 0.3);
+    }
+    .table-hover tbody tr:hover {
+        color: #525f7f;
+        background-color: #f6f9fc;
+    }
+    .table-primary,
+    .table-primary>th,
+    .table-primary>td {
+        background-color: #d2d8f7;
+    }
+
+    .table-primary th,
+    .table-primary td,
+    .table-primary thead th,
+    .table-primary tbody+tbody {
+        border-color: #abb6f1;
+    }
+
+    .table-hover .table-primary:hover {
+        background-color: #bcc5f3;
+    }
+
+    .table-hover .table-primary:hover>td,
+    .table-hover .table-primary:hover>th {
+        background-color: #bcc5f3;
+    }
+
+    .table-secondary,
+    .table-secondary>th,
+    .table-secondary>td {
+        background-color: #fdfefe;
+    }
+
+    .table-secondary th,
+    .table-secondary td,
+    .table-secondary thead th,
+    .table-secondary tbody+tbody {
+        border-color: #fbfcfd;
+    }
+
+    .table-hover .table-secondary:hover {
+        background-color: #ecf6f6;
+    }
+
+    .table-hover .table-secondary:hover>td,
+    .table-hover .table-secondary:hover>th {
+        background-color: #ecf6f6;
+    }
+
+    .modal-content .fa-times {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 7px;
+    }
+
+    #sign_in_loader {
+        height: 14px !important;
+        width: 14px;
+        margin-left: 10px;
+    }
+
+    .fa-times {
+        color: red;
+        font-size: 16px;
+    }
+
+    .product_list_td {
+        margin-left: 0px !important;
+        padding-left: 0px !important;
+    }
+    #modalAddProduct{
+        position: relative;
+        top:0%;
+        width: 100% !important;
+       
+    }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+
+<!-- Product Add -->
+<div class="container-fluid">
+    <br>
+    <button type="button" class="btn btn-block bg-gradient-info mb-3 btn_1 mt-5" data-bs-toggle="modal"
+        data-bs-target="#modalAddProduct">Add Products</button>
+    <!-- Modal Content -->
+    <div class="modal fade" id="modalAddProduct" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <i type='button' class="fa fa-times" aria-hidden="true" data-bs-dismiss="modal" aria-label="Close"></i>
+                <div class="modal-body px-md-5">
+                    <div class="col-lg-12 sec_div">
+                        <div class="card h-100 p-3">
+                            <button id='prod_added_noti' class="btn btn-block bg-gradient-success mt-2"
+                                style="display: none;">Product Added </button>
+                            <h4>Add Products</h4>
+                            <div class="d-flex flex-column h-100">
+                                <form method="post" enctype="multipart/form-data" id="input_prod_form">
+                                    {%csrf_token%}
+                                    <div class='mt-3'>
+                                        <input class="un" placeholder="Type Medicine name" name='input_product'
+                                            type='text' id="prod_name" value="">
+                                        <span class=''>
+                                            <select class="packing" name='packing' id="packing">
+                                                <option class='active name'>Pack</optxion>
+                                                <option value='Strip'>Strip</option>
+                                                <option value='Tablet'>Tablet</option>
+                                                <option value='Syrup'>Syrup</option>
+                                                <option value='Tube'>Tube</option>
+                                                <option value='Jelly'>Jelly</option>
+                                                <option value='Ointment'>Ointment</option>
+                                                <option value='Ampule'>Ampule</option>
+                                                <option value='Vial'>Vial</option>
+                                                <option value='Sachet'>Sachet</option>
+                                                <option value='Bottle'>Bottle</option>
+                                                <option value='Packet'>Packet</option>
+                                            </select>
+                                        </span>
+                                        <span>
+                                            <select class="prod_quantity" name='prod_quantity' id="prod_quantity">
+                                                <option class='active name' style='margin-left:0px;padding-left:0px;'>
+                                                    Quality</optxion>
+                                                <option value='1'>1</option>
+                                                <option value='2'>2</option>
+                                                <option value='3'>3</option>
+                                                <option value='4'>4</option>
+                                                <option value='1'>5</option>
+                                                <option value='10'>10</option>
+                                                <option value='15'>15</option>
+                                                <option value='20'>20</option>
+                                            </select>
+                                        </span>
+                                    </div>
+                                    <div class="text-center">
+                                        <span class="btn btn-block bg-gradient-primary mt-2" id="bt"
+                                            onclick="AddProduct()">Add</span>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Light table -->
+    <div class="table-responsive" id="inputitems" style="display: none;">
+        <div class="card-header border-0">
+            <h4 class="mb-0 font-weight-bold">Products</h4>
+        </div>
+        <table class="table align-items-center table-flush">
+            <thead class="thead-dark">
+                <tr class="font-weight-bold" style="font-size:13px ">
+                    <th scope="col" class="font-weight-bold text-md" data-sort="name">Product Name</th>
+                    <th scope="col" class="font-weight-bold text-md" data-sort="budget">Pack</th>
+                    <th scope="col" class="font-weight-bold text-md" data-sort="status">Quantity</th>
+                </tr>
+            </thead>
+            <tbody class="tbody-light" id="table_box">
+
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <!-- Add New Address -->
+    <button type="button" class="btn btn-block mb-3 bg-gradient-info btn_2" data-bs-toggle="modal"
+        data-bs-target="#modalSignUp" onclick="AddressList()">Select Address</button>
+    <!-- Modal Content -->
+    <div class="modal fade" id="modalSignUp" tabindex="-1" role="dialog" aria-hidden="true"
+        style="position: absolute;width: 100%;height:100%;bottom:0px;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <i type='button' class="fa fa-times" aria-hidden="true" data-bs-dismiss="modal" aria-label="Close"></i>
+                <div class="modal-body px-md-5">
+                    <div class="col-lg-12 sec_div">
+                        <div class="card h-100 p-3" id="OldAddress">
+
+                            <h4>Saved Address <span onclick="AddNewAddress()" type='button'>+ Add New Address</span>
+                            </h4>
+                            <form method="post">
+                                <div id="addlist">
+                                </div>
+                                <input type="hidden" value="" name="selected_address" id="selected_address">
+                                <input type="hidden" value="" name="selected_products" id="selected_products">
+                                <button type="submit" class="btn btn-block mb-3 mt-2" id="continue_btn">Place
+                                    Order</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<!-- End of Modal Content -->
+<hr class="line1">
+{% include "includes/footer.html" %}
+</div>
+
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+
+    // Check Local Storage
+    if (localStorage.getItem('input_prod') == null) {
+        var InProduct = {}
+    }
+    else {
+        InProduct = JSON.parse(localStorage.getItem('input_prod'));
+    }
+    //Add Product into array 
+    var count = 0;
+    function AddProduct() {
+        count = count + 1
+        var InName = document.getElementById('prod_name');
+        InName = InName.value
+        var InQty = document.getElementById('prod_quantity').value;
+        var InPk = document.getElementById('packing').value;
+        if (InName == "" || InQty == "" || InPk == "") {
+            alert("Please add products");
+        }
+        else {
+
+            if (localStorage.getItem('input_prod') == null) {
+                var InProduct = {}
+                var last_key = 0
+            }
+            else {
+                InProduct = JSON.parse(localStorage.getItem('input_prod'));
+                var last_key = Object.keys(InProduct).length
+            }
+            last_key = last_key + 1
+            InProduct[parseInt(last_key)] = [InName.toString(), InPk, InQty, last_key]
+            localStorage.setItem('input_prod', JSON.stringify(InProduct));
+            var InProduct = JSON.parse(localStorage.getItem('input_prod'));
+            ShowProduct(InProduct)
+        }
+    }
+    //Remove Product (row)
+    $('#table_box').on('click', '.delete_item', function () {
+        RemoveProduct(this.id)
+    });
+    function RemoveProduct(id) {
+        var target_id = '#table_' + id
+        var InProduct = JSON.parse(localStorage.getItem('input_prod'));
+        arr = Object.values(InProduct).filter((elem) => elem[3] != id);
+        arr = JSON.stringify(Object.assign({}, arr))
+        localStorage.setItem('input_prod', arr);
+        $(target_id).remove();
+    }
+
+    // Show Products on table
+    var currentProducts = JSON.parse(localStorage.getItem('input_prod'));
+        if(currentProducts!=null){
+    ShowProduct(currentProducts)
+    }
+
+    function ShowProduct(InProduct) {
+        document.getElementById('table_box').innerHTML = ' ';
+        for (var key in InProduct) {
+            var temp = `
+                    <tr id='table_${key}'>
+                        <td>&nbsp;&nbsp;${InProduct[key][0]}</th>
+                        <td >&nbsp;&nbsp;${InProduct[key][1]}</td>
+                        <td>&nbsp;&nbsp;${InProduct[key][2]}</td> 
+                        <td class='product_list_td'>
+                        <div class="d-flex flex-column justify-content-center">
+                        <div class='m-0 p-0'>
+                        <i class="fa fa-times delete_item" type='button' id='${key}' aria-hidden="true"></i>
+                        </div></div>
+                        </td>
+                    </tr>`
+            $('#table_box').append(temp);
+        }
+        document.getElementById('inputitems').style.display = 'block';
+        document.getElementById('prod_added_noti').style.display = 'block';
+        setInterval(function () {
+            document.getElementById('prod_added_noti').style.display = 'none';
+        }, 2000);
+    }
+
+
+
+</script>
+
+<script>
+    InAddress = {}
+    function AddingAddress() {
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var InFloor = document.getElementById('floorno');
+        var InLandmark = document.getElementById('landmark');
+        InAddress = {}
+        InAddress = [InFloor.value, InLandmark.value.toString()];
+        $.ajax({
+            type: 'POST',
+            url: '/checkout',
+            data: {
+                'newaddress': JSON.stringify(InAddress),
+                'csrfmiddlewaretoken': csrf,
+            },
+            dataType: 'json',
+            success: function (response) {
+                mydata = response.inputdata;
+                let url = window.location.href
+                let splited = url.split("/")
+                try {
+                    splited.indexOf('app-view')
+                    window.location = '/app-view/checkout'
+                }
+                catch {
+                    window.location = '/checkout';
+                }
+            }
+        });
+    }
+
+    function AddressList() {
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        document.getElementById('continue_btn').classList.remove('bg-gradient-primary');
+        $.ajax({
+            type: 'POST',
+            url: '/checkout',
+            data: {
+                'csrfmiddlewaretoken': csrf,
+            },
+            dataType: 'json',
+            success: function (response) {
+                mydata = response.addresslist
+                $("#addlist").empty();
+                for (var key in mydata) {
+                    var temp = `<p type='button' id=${key} class='adds'><i class="fa fa-map-marker"></i>&nbsp;
+                        ${mydata[key].floor_no} , ${mydata[key].landmark}</p>`
+                    $("#addlist").append(temp)
+                }
+            }
+        });
+    }
+    $('#addlist').on('click', '.adds', function () {
+        var inputs = document.querySelectorAll('.adds');
+        for (var i = 0; i < inputs.length; i++) {
+            document.getElementById(i).style.background = '#fff';
+        }
+        var idstr = this.id.toString();
+        document.getElementById(idstr).style.background = '#DCDCDC';
+        document.getElementById('continue_btn').classList.add('bg-gradient-primary');
+        document.getElementById('selected_address').value = idstr;
+    });
+
+    function AddressListRefresh() {
+        let url = window.location.href
+        let splited = url.split("/")
+        try {
+            splited.indexOf('app-view')
+            window.location = '/app-view/checkout'
+        }
+        catch {
+            window.location = '/checkout';
+        }
+    }
+    $('#continue_btn').click(function () {
+        document.getElementById('continue_btn').innerHTML = `Processing..<span class="spinner-border" role="status" 
+    id='sign_in_loader'>
+  </span>`;
+        // send data array from input form 
+        var product_list = JSON.stringify(localStorage.getItem('input_prod'));
+        document.getElementById('selected_products').value = product_list;
+        localStorage.clear()
+
+    });
+    $('#add_button').click(function () {
+        document.getElementById('add_button').innerHTML = `Adding..<span class="spinner-border" role="status" 
+    id=''>
+  </span>`
+    });
+
+    $('#delete_product').click(function () {
+        // product_id = this.id;
+        // ////console.log(product_id)
+        ////console.log('Cllckkee');
+    });
+
+
+
+
+
+
+    var allowGeoRecall = true;
+       var countLocationAttempts = 0;
+    function getLocation() {   
+        console.log('getLocation was called') 
+        console.log('Again')
+        if(navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, 
+            positionError);
+        } else {
+            hideLoadingDiv()
+            console.log('Geolocation is not supported by this device')
+        }
+    }
+
+    function positionError() {    
+        console.log('Geolocation is not enabled. Please enable to use this feature') 
+         if(allowGeoRecall && countLocationAttempts < 5) {
+             countLocationAttempts += 1;
+             getLocation();
+         }
+     }
+
+    function showPosition(){
+        console.log('posititon accepted')
+        allowGeoRecall = false;
+    }
+    getLocation()
+
+</script>
+{% endblock javascripts %}

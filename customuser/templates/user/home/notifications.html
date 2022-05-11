@@ -1,0 +1,83 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Deliver-Requests {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+.noti_bar{
+    list-style-type: none;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 990px) {
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid px-3 mt-5">
+<div class='card h-100 p-3'>
+    <ul class="noti_bar" id="noti_bar">
+      </ul>
+    </div>
+</div>
+</div>
+<div class="row mt-4">
+  <div class="col-lg-7 mb-lg-0 mb-4"> 
+ <div class="chat_page">
+<div id="display" class="notification_bar_details mt-5">
+</div>
+<div id="notification_for_user" class="notification_bar_details mt-5">
+</div>
+</div>
+</div>
+<br>
+       <hr class="line1"> 
+{% include "includes/footer.html" %}  
+    </div>
+    
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 
+<script>
+
+    $(document).ready(function () {
+  setInterval(function () {
+    $.ajax({
+      type: 'GET',
+      url: "/get_users_notifications",
+      success: function (response) {
+        // console.log(response);
+        $("#noti_bar").empty();
+        for (var key in response.noti_for_users) 
+        {
+          var temp = `<li class=;mb-2'>
+          <a class='dropdown-item border-radius-md' href='/users-notification/details/${response.noti_for_users[key].senderId}/${response.noti_for_users[key].id}'>
+            <div class='d-flex py-1'>
+              <div class='my-auto'>
+                <img src='/media/${response.noti_for_users[key].photo}' class='avatar avatar-sm  me-3 '>
+              </div>
+              <div class='d-flex flex-column justify-content-center'>
+                <h6 class='text-sm font-weight-normal mb-1'>
+                  <span class='font-weight-bold'>Notification</span> from ${response.noti_for_users[key].sender}</h6>
+                <p class='text-xs text-secondary mb-0'>
+                  <i class='fa fa-clock me-1'></i>
+                  ${response.noti_for_users[key].date
+        }
+                </p>
+              </div>
+            </div>
+          </a>
+          </li>
+          <hr style='padding:0px;margin:0px;'>`
+          $("#noti_bar").append(temp)
+        }
+      },});
+  },300);
+})
+</script>
+
+{% endblock javascripts %}

@@ -1,0 +1,643 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Deliver-Requests {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  .noti_bar {
+    list-style-type: none;
+    margin-top: 10px;
+  }
+
+  .main_area {
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    border-bottom: 1px solid #f4f4f4;
+  }
+
+  #submit {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FF6347;
+    color: #fff;
+    margin: 5px;
+    border: solid #FF6347;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  #sent_bill_image {
+    background-color: #00FF00;
+    color: #fff;
+    border: solid #DCDCDC;
+    border-width: 1px;
+    padding: 5px;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: bolder;
+    height: 40px;
+  }
+
+  .top-text-block {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: inherit !important;
+    border-bottom: 1px solid #f4f4f4;
+    position: relative;
+
+    &:hover {
+      &:before {
+        content: '';
+        width: 4px;
+        background: #f05a1a;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+      }
+    }
+
+    &.unread {
+      background: #ffc;
+
+      // &:hover {
+      //   background:#ffd;
+      // }
+    }
+
+    .top-text-light {
+      // color:#ccc;
+      color: #999;
+      font-size: 0.8em;
+    }
+  }
+
+  .top-head-dropdown {
+    .dropdown-menu {
+      width: 350px;
+      height: 300px;
+      overflow: auto;
+    }
+
+    li:last-child {
+      .top-text-block {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .topbar-align-center {
+    text-align: center;
+  }
+
+  .loader-topbar {
+    margin: 5px auto;
+    border: 3px solid #ddd;
+    border-radius: 50%;
+    border-top: 3px solid #666;
+    width: 22px;
+    height: 22px;
+    -webkit-animation: spin-topbar 1s linear infinite;
+    animation: spin-topbar 1s linear infinite;
+  }
+
+  @-webkit-keyframes spin-topbar {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin-topbar {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .SendBtn {
+    padding: 5px;
+    margin: 30px;
+  }
+
+  #reached_location {
+    background-color: #FF6347;
+    color: #fff;
+    border: solid #DCDCDC;
+    border-width: 1px;
+    padding: 5px;
+    width: 100%;
+    font-size: 13px;
+    height: 40px;
+  }
+
+  #reached_location:hover {
+    background-color: #fff;
+    color: #FF6347;
+    border-width: 1px;
+    border: solid #FF6347;
+    border-color: #FF6347;
+  }
+
+  #reached_location span {
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bolder;
+  }
+
+  .images_list {
+    text-align: center;
+
+  }
+
+  .images_list img {
+    margin-left: 0px !important;
+    max-width: 220px !important;
+    max-height: 230px !important;
+
+  }
+
+  .payment_details {
+    color: #fff;
+    background-color: #FF4500;
+    width: 100%;
+    border-radius: 0px;
+  }
+
+  .payment_details:hover {
+    background-color: #fff;
+    color: #FF4500;
+    border: solid #FF4500;
+    border-width: 1px;
+  }
+
+  #track_order {
+    margin-left: 0px;
+    weight: 100px !important;
+  }
+
+  #track_order p {
+    background-color: #FF4500;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px;
+    border-radius: 0px;
+  }
+
+  #track_order p:hover {
+    color: #FF4500;
+    background-color: #fff;
+    border: solid #FF4500;
+    border-width: 1px;
+  }
+
+  .table {
+    font-size: 11px;
+    font-weight: bolder;
+  }
+
+  #accept_btn {
+    width: 100%;
+    background-color: #00FF00;
+    color: #fff;
+    border: solid #fff;
+    padding: 5px;
+  }
+
+  #accept_btn:hover {
+    color: #00FF00;
+    background-color: #fff;
+    border: solid #00FF00;
+    border-width: 1px;
+    font-weight: bolder;
+    outline: none;
+    background: none;
+  }
+
+  #accept_btn :focus {
+    outline: none;
+    border: none;
+    outline: none;
+    background: none;
+  }
+
+  #decline_btn {
+    width: 100%;
+    background-color: red;
+    color: #fff;
+    border: solid #fff;
+    padding: 5px;
+  }
+
+  #decline_btn:hover {
+    color: red;
+    background-color: #fff;
+    border: solid red;
+    border-width: 1px;
+    font-weight: bolder;
+    outline: none;
+    background: none;
+  }
+
+  #decline_btn :focus {
+    outline: none;
+    border: none;
+    outline: none;
+    background: none;
+  }
+
+  .table_box {
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  }
+
+  #accept_btn {
+    width: 50%;
+  }
+
+  #decline_btn {
+    width: 50%;
+  }
+
+  @media screen and (max-width: 990px) {
+    #accept_btn {
+      width: 100%;
+    }
+
+    #decline_btn {
+      width: 100%;
+    }
+  }
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+body {
+    background-color: #eee;
+    font-family: "Poppins", sans-serif
+}
+
+.card {
+    background-color: #fff;
+    padding: 14px;
+    border: none
+}
+
+.demo {
+    width: 100%
+}
+
+ul {
+    list-style: none outside none;
+    padding-left: 0;
+    margin-bottom: 0
+}
+
+li {
+    display: block;
+    float: left;
+    margin-right: 6px;
+    cursor: pointer
+}
+
+img {
+    display: block;
+    height: auto;
+    width: 100%
+}
+
+.stars i {
+    color: #f6d151
+}
+
+.stars span {
+    font-size: 13px
+}
+
+hr {
+    color: #d4d4d4
+}
+
+.badge {
+    padding: 5px !important;
+    padding-bottom: 6px !important
+}
+
+.badge i {
+    font-size: 10px
+}
+
+.profile-image {
+    width: 35px
+}
+
+.comment-ratings i {
+    font-size: 13px
+}
+
+.username {
+    font-size: 12px
+}
+
+.comment-profile {
+    line-height: 17px
+}
+
+.date span {
+    font-size: 12px
+}
+
+.p-ratings i {
+    color: #f6d151;
+    font-size: 12px
+}
+
+.btn-long {
+    padding-left: 35px;
+    padding-right: 35px
+}
+
+.buttons {
+    margin-top: 15px
+}
+
+.buttons .btn {
+    height: 46px
+}
+
+.buttons .cart {
+    border-color: #ff7676;
+    color: #ff7676
+}
+
+.buttons .cart:hover {
+    background-color: #e86464 !important;
+    color: #fff
+}
+
+.buttons .buy {
+    color: #fff;
+    background-color: #ff7676;
+    border-color: #ff7676
+}
+
+.buttons .buy:focus,
+.buy:active {
+    color: #fff;
+    background-color: #ff7676;
+    border-color: #ff7676;
+    box-shadow: none
+}
+
+.buttons .buy:hover {
+    color: #fff;
+    background-color: #e86464;
+    border-color: #e86464
+}
+
+.buttons .wishlist {
+    background-color: #fff;
+    border-color: #ff7676
+}
+
+.buttons .wishlist:hover {
+    background-color: #e86464;
+    border-color: #e86464;
+    color: #fff
+}
+
+.buttons .wishlist:hover i {
+    color: #fff
+}
+
+.buttons .wishlist i {
+    color: #ff7676
+}
+
+.comment-ratings i {
+    color: #f6d151
+}
+
+.followers {
+    font-size: 9px;
+    color: #d6d4d4
+}
+
+.store-image {
+    width: 42px
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px
+}
+
+.bullet-text {
+    font-size: 12px
+}
+
+.my-color {
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+label.radio {
+    cursor: pointer
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio span {
+    border: 2px solid #8f37aa;
+    display: inline-block;
+    color: #8f37aa;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-transform: uppercase;
+    transition: 0.5s all
+}
+
+label.radio .red {
+    background-color: red;
+    border-color: red
+}
+
+label.radio .blue {
+    background-color: blue;
+    border-color: blue
+}
+
+label.radio .green {
+    background-color: green;
+    border-color: green
+}
+
+label.radio .orange {
+    background-color: orange;
+    border-color: orange
+}
+
+label.radio input:checked+span {
+    color: #fff;
+    position: relative
+}
+
+label.radio input:checked+span::before {
+    opacity: 1;
+    content: '\2713';
+    position: absolute;
+    font-size: 13px;
+    font-weight: bold;
+    left: 4px
+}
+
+.card-body {
+    padding: 0.3rem 0.3rem 0.2rem
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid px-3 mt-5">
+  <link rel='stylesheet' href='https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css'>
+  <div class="row ">
+   <div class="p-3 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Product Details</span></div>
+   <div class="col-lg-7 mb-lg-0 mb-4">        
+              <div class="card">
+               <h6>Prescriptions</h6>
+                  <div class="demo p-3">
+                      <ul id="lightSlider">
+                       {%for i in images_data%}
+                          <li data-thumb="/media/{{i}}"> <img src="/media/{{i}}" /> </li>
+                          {%endfor%}
+                      </ul>
+                  </div>
+              </div>
+              </div>
+              <div class="col-lg-5">       
+              <div class="card">
+               {%if Items_show %}
+         <div class="col-12">
+           <div class="card mb-4">
+             <div class="card-header pb-0">
+               <h6>Products </h6>
+             </div>
+             <div class="card-body px-0 pt-0 pb-2">
+               <div class="table-responsive p-0">
+                 <table class="table align-items-center mb-0">
+                   <thead>
+                     <tr>
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
+                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Packing</th>
+                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quality</th>
+                     </tr>
+                   </thead>
+                   <tbody>
+                       {%for i in items_list%}
+                     <tr>
+                       <td>
+                         <div class="d-flex px-2 py-1">
+                           <div class="d-flex flex-column justify-content-center">
+                             <h6 class="mb-0 text-sm">{{i.Product}}</h6>
+                           </div>
+                         </div>
+                       </td>
+                       <td>
+                         <p class="text-xs font-weight-bold mb-0">{{i.Pack}}</p>
+                      
+                       </td>
+                       <td class="align-middle text-center text-sm">
+                           <p class="text-xs font-weight-bold mb-0">{{i.Quantity}}</p> 
+                       </td>
+                     </tr>
+                     {%endfor%}
+                   </tbody>
+                 </table>
+               </div>
+             </div>
+           </div>
+         </div>
+         {%endif%}
+  <div class='card h-100 p-3 '>
+      <div class="row">
+        <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="p-3">
+            {%if IsAccepted.store_status == True %}<p>
+              <span class="mt-1 text-center" style="margin-top: 5px;font-size: 12px;">{{text}}</span><br>
+              {%else%}
+              {% if not Is_responsed %}
+            <form method="post" action="/notification_view/">
+              {%csrf_token%}
+              <div class="row p-3">
+              <button name="store_response" id="accept_btn" value="accpeted,{{reqeust_sender}}"
+                class="btn btn-outline">Accept</button>
+              <button name="store_response" id="decline_btn" type="submit" value="declined,{{reqeust_sender}}"
+                class="btn btn-outline">Decline</button>
+              </div>
+              <input type="hidden" name="data_id" id="data_id" value="{{myid}}">
+            </form>
+            {%else%}
+            <p><span class="mt-1 message">{{text}}</span></p>
+            {%endif%}
+            {%endif%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mt-4">
+
+  <div class="col-lg-7 mb-lg-0 mb-4">
+    <div class="chat_page">
+      <div id="display" class="notification_bar_details mt-5">
+      </div>
+
+      <div id="notification_for_user" class="notification_bar_details mt-5">
+      </div>
+    </div>
+
+  </div>
+
+  <br>
+
+
+  <hr class="line1">
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+<script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
+<script>
+    $('#lightSlider').lightSlider({
+        gallery: true,
+        item: 1,
+        loop: true,
+        slideMargin: 0,
+        thumbItem: 9
+    });
+    </script>
+{% endblock javascripts %}

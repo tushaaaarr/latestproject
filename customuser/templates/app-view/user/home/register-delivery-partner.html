@@ -1,0 +1,264 @@
+{% extends 'app-view/user/layouts/base.html' %}
+{% block title %} Register-delivery-partner {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    .fileUpload {
+        background-color: indigo;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        margin: 10px;
+        width: 80px;
+        font-size: 12px;
+    }
+
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+
+    }
+
+    .deliver_partner label {
+        margin-top: 15px;
+        font-weight: bolder;
+        font-size: 14px;
+    }
+    #sign_in_loader {
+    height: 14px !important;
+    width: 14px;
+    margin-left: 10px;
+  }
+
+  .camera_section{
+  box-shadow:2px 2px 12px rgba(47,47,47,0.40);
+  width:auto;
+  margin-top:20px;
+  margin-right:auto;
+  width:100%;
+}
+#video {
+  width:100%;
+  height:200px;
+  content-align:center;
+  margin-top:20px;
+  margin-right:auto;
+  padding-left:auto;
+   
+}
+
+#photo {
+ position:absolute;
+  width:70px;
+  height:100px;
+  content-align:center;
+  bottom:15%;
+  right:15%;
+  top:60%;
+}
+
+#canvas {
+  display:none;
+}
+
+
+#startbutton {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  font-size: 14px;
+  border:none; 
+background:none;
+margin-top:0px;
+padding-top:0px;
+  } 
+.contentarea {
+  font-size: 16px;
+  font-family: "Lucida Grande", "Arial", sans-serif;
+  width:100%;
+}
+
+
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="mt-3 container deliver_partner">
+    <form method="POST" name="inputForm" enctype='multipart/form-data'>
+  <input type="hidden" name="csrfmiddlewaretoken" value="YQVoSV02Eu4PuEmw30YzjXbSL1y8we4iukDBjKiCSf8NklEtwJw2fyt5vp0K6MBt">
+  <br>
+  <label style='margin-bottom:3px;margin-left:2px;'>1.Choose city where do you want to place orders</label>
+   <select class="form-control select_city" name='select_city' required>
+            <option class='active ' style='margin-left:0px;padding-left:0px;'>Select Delivery City</optxion>
+            <option value='nipani'>Nipani</option>
+             <option value='jaysingpur'>Jaysingpur</option>
+              <option value='kolhapur'>Kolhapur</option>
+               <option value='pune'>Pune</option>
+          </select>
+    <label style='margin-bottom:0px;margin-left:2px;'>2.Upload adhar card photo</label>
+    <input id="uploadFile" placeholder="Choose File" disabled="disabled" />
+  <div class="fileUpload btn btn-primary mt-1" style='margin-top:0px;'>
+      <span>Select</span>
+      <input id="uploadBtn" type="file" class="upload" name='adhar_doc' required/>
+  </div>
+  <br>
+  <label style='margin-bottom:0px;margin-left:2px;margin-top:5px;'>3.Capture your selfie</label>
+    <div class="contentarea">
+              <div class="Input">
+                      <div id="camera" class="camera">
+                      <div class='camera_section'>
+                          <video id="video">Video stream not available.</video>
+                          <button id="startbutton" type="button"><span><img src='https://as1.ftcdn.net/v2/jpg/02/47/54/48/500_F_247544826_TzCmLbc0UBZuZllFaEVCqMgPUNLhA41T.jpg' style='width:35px;height25px;'</span></button>
+                          <input id="webimg" value="" name="src" type="text" style="display: none; "required>
+                          <canvas id="canvas">
+                          </canvas>                    
+                          <img id="photo" alt="your image">
+                      </div>
+                          <br>
+                        </div>
+                      <div>
+                       <label>
+                       <input type="checkbox" value="agree" name='agree_conditions' id='agree_conditions' required> Agree terms and conditions </label>
+                          <div class='text-center'>
+                      <button type="submit" class="btn btn-outline bg-gradient-primary w-100 mt-1 " id="submit_btn">Send</button>
+                      </div>
+                  </form>
+              </div>
+             <img src="" >
+          </div>
+  
+  </div>
+
+
+{% include "includes/footer.html" %}
+</div>
+
+
+<!-- End of Modal Content -->
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    document.getElementById("uploadBtn").onchange = function () {
+    document.getElementById("uploadFile").value = this.value;
+};
+
+(function() {
+  // The width and height of the captured photo. We will set the
+  // width to the value defined here, but the height will be
+  // calculated based on the aspect ratio of the input stream.
+
+  var width = 320;    // We will scale the photo width to this
+  var height = 0;     // This will be computed based on the input stream
+
+  // |streaming| indicates whether or not we're currently streaming
+  // video from the camera. Obviously, we start at false.
+
+  var streaming = false;
+
+  // The various HTML elements we need to configure or control. These
+  // will be set by the startup() function.
+
+  var video = null;
+  var canvas = null;
+  var photo = null;
+  var startbutton = null;
+
+  function startup() {
+    video = document.getElementById('video');
+    canvas = document.getElementById('canvas');
+    photo = document.getElementById('photo');
+    startbutton = document.getElementById('startbutton');
+
+    navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    .then(function(stream) {
+      video.srcObject = stream;
+      video.play();
+    })
+    .catch(function(err) {
+      console.log("An error occurred: " + err);
+    });
+
+    video.addEventListener('canplay', function(ev){
+      if (!streaming) {
+        height = video.videoHeight / (video.videoWidth/width);
+      
+        // Firefox currently has a bug where the height can't be read from
+        // the video, so we will make assumptions if this happens.
+      
+        if (isNaN(height)) {
+          height = width / (4/3);
+        }
+      
+        video.setAttribute('width', width);
+        video.setAttribute('height', height);
+        canvas.setAttribute('width', width);
+        canvas.setAttribute('height', height);
+        streaming = true;
+      }
+    }, false);
+
+    startbutton.addEventListener('click', function(ev){
+      takepicture();
+      ev.preventDefault();
+    }, false);
+    
+    clearphoto();
+  }
+
+  // Fill the photo with an indication that none has been
+  // captured.
+
+  function clearphoto() {
+    var context = canvas.getContext('2d');
+    context.fillStyle = "#AAA";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    var data = canvas.toDataURL('image/png');
+    photo.setAttribute('src', data);
+  }
+  
+  // Capture a photo by fetching the current contents of the video
+  // and drawing it into a canvas, then converting that to a PNG
+  // format data URL. By drawing it on an offscreen canvas and then
+  // drawing that to the screen, we can change its size and/or apply
+  // other changes before drawing it.
+
+  function takepicture() {
+    var context = canvas.getContext('2d');
+    if (width && height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(video, 0, 0, width, height);
+    
+      var data = canvas.toDataURL('image/png');
+      photo.setAttribute('src', data);
+      document.getElementById('webimg').value = data;
+      console.log(data);
+    } else {
+      clearphoto();
+    }
+  }
+
+  // Set up our event listener to run the startup process
+  // once loading is complete.
+  window.addEventListener('load', startup, false);
+})();
+
+  $('#submit_btn').click(function () {
+    console.log(document.getElementById('submit_btn').innerHTML = `Processing..<span class="spinner-border" role="status" 
+    id='sign_in_loader'>
+  </span>`)
+  });
+</script>
+{% endblock javascripts %}

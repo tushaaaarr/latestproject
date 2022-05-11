@@ -1,0 +1,448 @@
+{% extends 'app-view/user/layouts/base.html' %}
+{% block title %} Select-Location {% endblock title %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    /* Location Modal */
+    .search_mod_body p {
+        font-weight: 700;
+        color: #696969;
+        margin-top: 10px;
+    }
+
+    .search_mod_body h2 {
+        font-size: 14px;
+        margin-top: 12px;
+        font-weight: 500;
+    }
+
+    .search_mod_body h1 {
+        font-weight: 500;
+        color: #696969;
+        font-size: 16px;
+    }
+
+    .search_mod_body i {
+        position: absolute;
+        right: 10px;
+        margin-top: 12px !important;
+    }
+
+    .search_mod_dialog {
+        height: 100%;
+        width: 100%;
+        padding-right: 4px;
+        margin-left: 2px;
+        margin-left: auto;
+    }
+
+    .search_mod_content {
+        height: 80%;
+        width: 100%;
+    }
+
+    .search_mod_body h2 {
+        font-size: 14px;
+        color: #000080;
+        margin-left: 10px;
+    }
+
+    #normal-select-1 {
+        width: 200px;
+    }
+
+    .container-fluid p {
+        font-weight: 700;
+    }
+
+    .result_card1 button {
+        width: 100%;
+        font-size: 10px !important;
+        padding: 2px;
+        margin-top: 3px;
+        border: 1px solid #000080;
+        color: #000080;
+        background-color: #fff;
+        border-radius: 5px;
+    }
+
+    .result_card1 h5 {
+        font-size: 13px;
+    }
+
+    .recent_loc {
+        font-size: 13px;
+    }
+
+    /* Medical List */
+    .main_start {
+        display: block;
+        margin-top: 0px;
+        background: #FFFFFF;
+        border-radius: 1.5rem;
+        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+        padding: 5px;
+        margin: 0px;
+    }
+
+    .main_start .card {
+        height: 14rem;
+        border: 1px solid #000080;
+        width: 10rem;
+    }
+
+    .main_start .img-box1 {
+        height: 130px;
+    }
+
+    .main_start h4 {
+        font-size: 13px;
+        padding: 0px;
+        margin: 0px;
+        color: #000080;
+        font-weight: 700;
+    }
+
+    .distance_km h4 {
+        font-size: 12px;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: #000080;
+        background: #FFFFFF;
+        border: 1px solid #000080;
+        padding: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .main_start p {
+        font-size: 15px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .btn-block {
+        background-color: #fff;
+    }
+
+    #pac-input:focus {
+        border: 1px solid #000080 !important;
+        outline: none;
+    }
+
+    @media screen and (max-width: 990px) {
+        .div_img {
+            display: none;
+        }
+
+        .card1 {
+            display: none;
+        }
+    }
+
+    .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Search box  */
+
+    #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+    }
+
+    #infowindow-content .title {
+        font-weight: bold;
+    }
+
+    #infowindow-content {
+        display: none;
+    }
+
+    #map #infowindow-content {
+        display: inline;
+    }
+
+    .pac-card {
+        background-color: #fff;
+        border: 0;
+        border-radius: 2px;
+        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+        margin: 10px;
+        padding: 0 0.5em;
+        font: 400 18px Roboto, Arial, sans-serif;
+        overflow: hidden;
+        font-family: Roboto;
+        padding: 0;
+    }
+
+    #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+    }
+
+    .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+    }
+
+    .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+    }
+
+
+
+    #pac-input:focus {
+        border-color: #4d90fe;
+    }
+
+    #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+    }
+
+    #target {
+        width: 345px;
+    }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid row mt-4">
+    <div class="loader">
+        <img src="https://www.stamforduniversity.edu.bd/asset/includes/loader/processing.gif" style="width: 100px;">
+    </div>
+    <!-- Button Modal -->
+    <button type="button" class="btn btn-block mt-5 w-100" onclick="getLocation()">
+        <span id="change_by_name">Detect current location</span>
+        &nbsp;<span><img src="/media/icons/location.png" style="height: 15px;"></span></button>
+    <!-- Modal Content -->
+    <form>
+        {%csrf_token%}
+        <input class="form-control border border-primary w-100" id="pac-input" type="text"
+            placeholder="Search for Place,City Area" />
+    </form>
+</div>
+
+</div>
+</div>
+</div>
+<!-- End of Modal Content -->
+<div class="col-lg-7 mb-lg-0 mb-4">
+</div>
+<br>
+<div class="hiddenarea" id='hiddenarea' style="display: none;">
+    <div class="main_start" id="StoreDiVFirst">
+        <p>Near Medical stores in your area</p>
+        <div class="m-2">
+        </div>
+        <div class="row" id='StoreList'>
+            {% for i in new_list %}
+            <div class="card mx-auto my-2 align-items-center">
+                <div class="img-box">
+                    <a href="/app-view/store-view/{{i.id}}/{{i.name}}/{{i.distance}}">
+                        <img src="https://th.bing.com/th/id/OIP.H-QL_6Ujz1l0gPSmdV4i8AHaE8?pid=ImgDet&rs=1"
+                            style="padding: 10px;max-width: 100%;height: 110px;"></a>
+                </div>
+                <h4> {{i.name}}</h4>
+                <p class='text-dark' id="item_address" style="font-size: 11px;font-weight: 700;">
+                    {{i.address}}</p>
+                <div class="distance_km" style="text-align: center;">
+                    <h4>{{i.distance}} Km </h4>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+<hr class="line1">
+{% include "includes/footer.html" %}
+</div>
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    //Loading gif
+    $(window).load(function () {
+        $(".loader").fadeOut("slow")
+    });
+    var x = document.getElementById("demo");
+    var allowGeoRecall = true;
+    var countLocationAttempts = 0;
+
+    function getLocation() {
+        $(".loader").fadeIn("slow")
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        };
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, positionError, options);
+            // $(".loader").fadeOut("slow")
+        } else {
+            alert("Geolocation is not supportted by this device .");
+            $(".loader").fadeOut("slow");
+        }
+    }
+    function positionError() {
+        alert('Please allow permissions for location (GPS) .')
+        if (allowGeoRecall && countLocationAttempts < 5) {
+            countLocationAttempts += 1;
+            getLocation();
+        }
+    }
+
+
+    function showPosition(position) {
+        // Show Medical Stores with current location
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude;
+        displayLocation(lat, lon);
+        // console.log(lat,lon)
+        $.ajax({
+            type: 'POST',
+            url: '/detect-users-location',
+            data: {
+                'lon': JSON.stringify(lon),
+                'lat': JSON.stringify(lat),
+                'csrfmiddlewaretoken': csrf,
+            },
+            dataType: 'json',
+            success: function (response) {
+                document.getElementById('hiddenarea').style.display = 'block';
+                document.getElementById('StoreList').innerHTML = ' ';
+                mydata = response.context;
+                for (var key in mydata) {
+                    var temp = `<div class='card mx-auto my-2 align-items-center'>
+                                <div class='img-box'>
+                                <a href='/app-view/store-view/${mydata[key].id}/${mydata[key].name}/{${mydata[key].distance}''>
+                                <img src='https://th.bing.com/th/id/OIP.H-QL_6Ujz1l0gPSmdV4i8AHaE8?pid=ImgDet&rs=1'
+                                    style='padding: 10px;max-width: 100%;height: 110px;''></a>
+                            </div>
+                                <h4>${mydata[key].name}</h4>
+                                <p class='text-dark' id="item_address" style='font-size: 11px;font-weight: 700;''>
+                                    ${mydata[key].address}</p>
+                                <div class='distance_km' style='text-align:center;'>
+                                    <h4>${mydata[key].distance} Km </h4>
+                                </div>
+                            </div>`
+                    if ($("#StoreList").empty) {
+                        $("#StoreList").append(temp);
+                        $(".loader").fadeOut("slow");
+
+                    }
+                }
+            }
+        });
+    }
+</script>
+<!-- Google Api search places -->
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPDQ8ED06bcwh-X8C4uGoZOS45knP_loY&callback=initAutocomplete&libraries=places&v=weekly"
+    async></script>
+<script>
+    function initAutocomplete() {
+        const input = document.getElementById("pac-input");
+        const searchBox = new google.maps.places.SearchBox(input);
+        searchBox.addListener("places_changed", () => {
+            const places = searchBox.getPlaces();
+            if (places.length == 0) {
+                return;
+            }
+            places.forEach((place) => {
+                if (!place.geometry || !place.geometry.location) {
+                    console.log("Returned place contains no geometry");
+                    return;
+                }
+                var long = place.geometry.location.lng()
+                var lat = place.geometry.location.lat()
+                const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+                displayLocation(lat, long);
+                $.ajax({
+                    type: 'POST',
+                    url: '/detect-users-location',
+                    data: {
+                        'lon': JSON.stringify(long),
+                        'lat': JSON.stringify(lat),
+                        'csrfmiddlewaretoken': csrf,
+                    },
+                    dataType: 'json',
+                    dataType: 'json',
+                    success: function (response) {
+                        document.getElementById('hiddenarea').style.display = 'block';
+                        mydata = response.context;
+                        document.getElementById('StoreList').innerHTML = ' ';
+                        for (var key in mydata) {
+                            var temp = `
+                            <div class='card mx-auto my-2 align-items-center'>
+                                <div class='img-box'>
+                                    <a href='/app-view/store-view/${mydata[key].id}/${mydata[key].name}/{${mydata[key].distance}''>
+                                        <img src='https://th.bing.com/th/id/OIP.H-QL_6Ujz1l0gPSmdV4i8AHaE8?pid=ImgDet&rs=1'style='padding: 10px;max-width: 100%;height: 110px;''></a>
+                                </div>
+                                    <h4>${mydata[key].name}</h4>
+                                        <p class='text-dark' id="item_address" style='font-size: 11px;font-weight: 700;''>${mydata[key].address}</p>
+                                        <div class='distance_km' style='text-align:center;'>
+                                            <h4>${mydata[key].distance} Km </h4>
+                                        </div>
+                                    </div>`
+                            if ($("#StoreList").empty) {
+                                $("#StoreList").append(temp);
+                                // document.getElementById('StoreList').innerHTML = temp;
+                            }
+                        }
+                    }
+
+                });
+
+            });
+        });
+    }
+    //retrun City Or Ara name
+    function displayLocation(latitude, longitude) {
+        var geocoder;
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng(latitude, longitude);
+        geocoder.geocode(
+            { 'latLng': latlng },
+            function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        var add = results[0].formatted_address;
+                        var value = add.split(",");
+                        count = value.length;
+                        country = value[count - 1];
+                        state = value[count - 2];
+                        city = value[count - 3];
+                        document.getElementById('change_by_name').innerHTML = city;
+                    }
+                    else {
+                        console.log("address not found");
+                    }
+                }
+                else {
+                    console.log("Geocoder failed due to: " + status);
+                }
+            }
+        );
+    }
+</script>
+{% endblock javascripts %}

@@ -1,0 +1,69 @@
+{% extends 'app-view/user/layouts/base.html' %}
+
+{% block title %} Deliver-Requests {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  .noti_bar {
+    list-style-type: none;
+    margin-top: 10px;
+    padding: 0px;
+  }
+
+  @media screen and (max-width: 990px) {}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid p-1 ">
+  <div class='card h-100'>
+    <ul class="noti_bar" id="noti_bar">
+      {%for i in messages_list %}
+      <li class='mb-2 mt-1'>
+        <a class='dropdown-item border-radius-md' href='/app-view/store-notification/details/{{i.senderId}}/{{i.id}}'>
+          <div class='d-flex py-1'
+          >
+            <div class='my-auto'>
+              <img src='/media/{{i.photo}}' class='a  vatar avatar-sm  me-3 '>
+            </div>
+            <div class='d-flex flex-column justify-content-center'>
+              <h6 class='text-sm font-weight-normal mb-1'>
+                <span class='font-weight-bold'>Request</span> from {{i.sender}}
+              </h6>
+              <p class='text-xs text-secondary mb-0'>
+                <i class='fa fa-clock me-1'></i>{{i.date}}
+              </p>
+            </div>
+          </div>
+        </a>
+      </li>
+      <hr style='padding:0px;margin:0px;'>
+      {%endfor%}
+    </ul>
+  </div>
+</div>
+</div>
+<div class="row mt-4">
+  <div class="col-lg-7 mb-lg-0 mb-4">
+    <div class="chat_page">
+      <div id="display" class="notification_bar_details mt-5">
+      </div>
+      <div id="notification_for_user" class="notification_bar_details mt-5">
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr class="line1">
+  {% include "includes/footer.html" %}
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<script>
+
+</script>
+
+{% endblock javascripts %}

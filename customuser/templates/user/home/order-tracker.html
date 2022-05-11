@@ -1,0 +1,991 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Myorders {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+    body {
+        background-color: #eeeeee;
+        font-family: 'Open Sans', serif
+    }
+
+   
+    .card {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0.10rem
+    }
+
+    .card-header:first-child {
+        border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+    }
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1)
+    }
+
+
+    .itemside {
+        position: relative;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%
+    }
+
+    .itemside .aside {
+        position: relative;
+        -ms-flex-negative: 0;
+        flex-shrink: 0
+    }
+
+    .img-sm {
+        width: 80px;
+        height: 80px;
+        padding: 7px
+    }
+
+    ul.row,
+    ul.row-sm {
+        list-style: none;
+        padding: 0
+    }
+
+    .itemside .info {
+        padding-left: 15px;
+        padding-right: 7px
+    }
+
+    .itemside .title {
+        display: block;
+        margin-bottom: 5px;
+        color: #212529
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 1rem
+    }
+
+    .btn-warning {
+        color: #ffffff;
+        background-color: #ee5435;
+        border-color: #ee5435;
+        border-radius: 1px
+    }
+
+    .btn-warning:hover {
+        color: #ffffff;
+        background-color: #ff2b00;
+        border-color: #ff2b00;
+        border-radius: 1px
+    }
+
+    .intro strong {
+        font-size: 12px;
+    }
+
+    .intro span {
+        font-size: 11px;
+    }
+
+    .headings th {
+        font-size: 12px;
+    }
+
+    .details td {
+        font-size: 12px;
+    }
+
+    #items {
+        font-size: 12px;
+        width: 100%;
+        margin-right: 20px;
+    }
+
+    #title_box {
+        font-size: 12px;
+        height: 30px;
+    }
+
+    .main_page {
+        margin-top: 20px;
+    }
+
+    .payment_type {
+        padding: 7px;
+    }
+
+    .payment_amount {
+        font-weight: bolder;
+    }
+
+    .table_box {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        margin-top: 0px;
+    }
+
+    .table {
+        font-size: 11px;
+        font-weight: bolder;
+    }
+
+    .card-body {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    }
+
+    .icon {
+        font-size: 14px;
+    }
+
+    .table {
+        font-weight: 500;
+    }
+
+    .headings th {
+        font-weight: 700;
+        font-size: 12px;
+    }
+
+    .card hr {
+        margin: 2px;
+    }
+
+    .imgs_block {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 0px;
+        margin: 0px;
+        margin-top: 5px;
+    }
+
+    .track1 {
+        position: absolute;
+        background: #bcd4e6;
+        height: 90px;
+        display: flex;
+        width: 3px;
+        margin-top: 2px;
+        margin-left: 9px;
+        margin-bottom: 3px;
+    }
+
+    .track .step {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 25%;
+        margin-top: -18px;
+        text-align: center;
+        position: relative
+    }
+
+    .track .step.active:before {
+
+        background: #32CD32;
+    }
+
+    .track1 .step::before {
+        height: 7px;
+        position: absolute;
+        content: "";
+        width: 100%;
+        left: 0;
+        top: 18px
+    }
+
+    .track .step.active .icon {
+        background: ;
+        color: #fff;
+    }
+
+    .icon i {
+        font-size: 10px;
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+
+    .track .icon {
+        display: inline-block;
+        width: 21px;
+        height: 21px;
+        line-height: 20px;
+        position: relative;
+        border-radius: 100%;
+        background: #add8e6;
+        color: #fff;
+
+
+    }
+
+    .track .step.active .text {
+        font-weight: 400;
+        color: #000
+    }
+
+    .track .text {
+        display: block;
+        font-size: 11px;
+    }
+
+    .box {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 5px;
+        height: 300px;
+        background-color: #E6E6FA;
+        margin: 50px;
+        box-shadow: none;
+    }
+
+    .text {
+        position: absolute;
+        left: 223px;
+        top: 132px;
+        font-weight: bolder;
+        color: #4169E1;
+        display: flex;
+    }
+
+    .text2 {
+        position: absolute;
+        left: 223px;
+        top: 187px;
+        display: flex;
+        font-size: 12px;
+        font-weight: bolder;
+        color: #4169E1;
+    }
+
+    .text3 {
+        position: absolute;
+        left: 223px;
+        top: 255px;
+        display: flex;
+        font-size: 11px;
+        font-weight: bolder;
+        color: #4169E1;
+    }
+
+    @media screen and (max-width: 768px) {
+        .box {
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            padding: 5px;
+            height: 600px;
+            background-color: #fff;
+            margin: 10px;
+            box-shadow: none;
+        }
+
+        .text {
+            position: absolute;
+            left: 92px;
+            top: 323px;
+            font-weight: 900;
+            color: #4169E1;
+            display: flex;
+        }
+
+        .sub_text {
+            position: absolute;
+            left: 92px;
+            top: 340px;
+            color: black;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .date_text {
+            position: absolute;
+            left: 92px;
+            top: 355px;
+            color: #a9a9a9;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .text2 {
+            position: absolute;
+            left: 92px;
+            top: 428px;
+            display: flex;
+            font-size: 10px;
+            font-weight: 920;
+            color: #4169E1;
+        }
+
+        .sub_text2 {
+            position: absolute;
+            left: 92px;
+            top: 443px;
+            color: black;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .date_text2 {
+            position: absolute;
+            left: 92px;
+            top: 457px;
+            color: #a9a9a9;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .text3 {
+            position: absolute;
+            left: 92px;
+            top: 538px;
+            display: flex;
+            font-size: 10px;
+            font-weight: 900;
+            color: #4169E1;
+        }
+
+        .sub_text3 {
+            position: absolute;
+            left: 92px;
+            top: 553px;
+            color: black;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .date_text3 {
+            position: absolute;
+            left: 92px;
+            top: 568px;
+            color: #a9a9a9;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .text4 {
+            position: absolute;
+            left: 92px;
+            top: 650px;
+            display: flex;
+            font-size: 10px;
+            font-weight: 900;
+            color: #4169E1;
+        }
+
+        .sub_text4 {
+            position: absolute;
+            left: 92px;
+            top: 664px;
+            color: black;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .date_text4 {
+            position: absolute;
+            left: 92px;
+            top: 678px;
+            color: #a9a9a9;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .text5 {
+            position: absolute;
+            left: 92px;
+            top: 760px;
+            display: flex;
+            font-size: 10px;
+            font-weight: 900;
+            color: #4169E1;
+        }
+
+        .sub_text5 {
+            position: absolute;
+            left: 92px;
+            top: 772px;
+            color: black;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .date_text5 {
+            position: absolute;
+            left: 92px;
+            top: 787px;
+            color: #a9a9a9;
+            display: flex;
+            font-size: 12px;
+        }
+
+        .text,
+        .text2,
+        .text3,
+        .text4,
+        .text5 {
+            font-size: 12px !important;
+            color: black;
+        }
+
+        .img-box {
+            text-align: center;
+        }
+
+        .img-box img {
+            max-width: 220px;
+        }
+
+    }
+
+
+    /* Order Tracker  */
+    .steps .step {
+        display: block;
+        width: 100%;
+        margin-bottom: 35px;
+        text-align: center
+    }
+
+    .steps .step .step-icon-wrap {
+        display: block;
+        position: relative;
+        width: 100%;
+        height: 80px;
+        text-align: center
+    }
+
+    .steps .step .step-icon-wrap::before,
+    .steps .step .step-icon-wrap::after {
+        display: block;
+        position: absolute;
+        top: 37%;
+        width: 50%;
+        height: 3px;
+        margin-top: -1px;
+        background-color: #e1e7ec;
+        content: '';
+        z-index: 1
+    }
+
+    .steps .step .step-icon-wrap::before {
+        left: 0
+    }
+
+    .steps .step .step-icon-wrap::after {
+        right: 0
+    }
+
+    .steps .step .step-icon {
+        display: inline-block;
+        position: relative;
+        width: 60px;
+        height: 60px;
+        border: 1px solid #e1e7ec;
+        border-radius: 50%;
+        background-color: #f5f5f5;
+        color: #374250;
+        font-size: 22px;
+        line-height: 60px;
+        z-index: 5
+    }
+
+    .steps .step .step-title {
+        margin-top: 0px important;
+        color: #000080;
+        font-size: 14px;
+        font-weight: 700;
+        padding-top: 0px;
+        padding: 0px;
+    }
+
+    .steps .step .step-subtitle {
+        color: #000080;
+        font-size: 11px;
+        font-weight: 500;
+        padding-top: 0px;
+        margin-top: 0px !important;
+    }
+
+    .steps .step:first-child .step-icon-wrap::before {
+        display: none
+    }
+
+    .steps .step:last-child .step-icon-wrap::after {
+        display: none
+    }
+
+    .steps .step.completed .step-icon-wrap::before,
+    .steps .step.completed .step-icon-wrap::after {
+        background-color: #000080
+    }
+
+    .steps .step.completed .step-icon {
+        border-color: #000080;
+        background-color: #000080;
+        color: #fff
+    }
+
+    @media (max-width: 576px) {
+
+        .flex-sm-nowrap .step .step-icon-wrap::before,
+        .flex-sm-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .flex-md-nowrap .step .step-icon-wrap::before,
+        .flex-md-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+
+    @media (max-width: 991px) {
+
+        .flex-lg-nowrap .step .step-icon-wrap::before,
+        .flex-lg-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+
+    @media (max-width: 1200px) {
+
+        .flex-xl-nowrap .step .step-icon-wrap::before,
+        .flex-xl-nowrap .step .step-icon-wrap::after {
+            display: none
+        }
+    }
+
+    .bg-faded,
+    .bg-secondary {
+        background-color: #f5f5f5 !important;
+    }
+
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+body {
+    background-color: #eee;
+    font-family: "Poppins", sans-serif
+}
+
+.card {
+    background-color: #fff;
+    padding: 14px;
+    border: none
+}
+
+.demo {
+    width: 100%
+}
+
+ul {
+    list-style: none outside none;
+    padding-left: 0;
+    margin-bottom: 0
+}
+
+li {
+    display: block;
+    float: left;
+    margin-right: 6px;
+    cursor: pointer
+}
+
+img {
+    display: block;
+    height: auto;
+    width: 100%
+}
+
+.stars i {
+    color: #f6d151
+}
+
+.stars span {
+    font-size: 13px
+}
+
+hr {
+    color: #d4d4d4
+}
+
+.badge {
+    padding: 5px !important;
+    padding-bottom: 6px !important
+}
+
+.badge i {
+    font-size: 10px
+}
+
+.profile-image {
+    width: 35px
+}
+
+.comment-ratings i {
+    font-size: 13px
+}
+
+.username {
+    font-size: 12px
+}
+
+.comment-profile {
+    line-height: 17px
+}
+
+.date span {
+    font-size: 12px
+}
+
+.p-ratings i {
+    color: #f6d151;
+    font-size: 12px
+}
+
+.btn-long {
+    padding-left: 35px;
+    padding-right: 35px
+}
+
+.buttons {
+    margin-top: 15px
+}
+
+.buttons .btn {
+    height: 46px
+}
+
+.buttons .cart {
+    border-color: #ff7676;
+    color: #ff7676
+}
+
+.buttons .cart:hover {
+    background-color: #e86464 !important;
+    color: #fff
+}
+
+.buttons .buy {
+    color: #fff;
+    background-color: #ff7676;
+    border-color: #ff7676
+}
+
+.buttons .buy:focus,
+.buy:active {
+    color: #fff;
+    background-color: #ff7676;
+    border-color: #ff7676;
+    box-shadow: none
+}
+
+.buttons .buy:hover {
+    color: #fff;
+    background-color: #e86464;
+    border-color: #e86464
+}
+
+.buttons .wishlist {
+    background-color: #fff;
+    border-color: #ff7676
+}
+
+.buttons .wishlist:hover {
+    background-color: #e86464;
+    border-color: #e86464;
+    color: #fff
+}
+
+.buttons .wishlist:hover i {
+    color: #fff
+}
+
+.buttons .wishlist i {
+    color: #ff7676
+}
+
+.comment-ratings i {
+    color: #f6d151
+}
+
+.followers {
+    font-size: 9px;
+    color: #d6d4d4
+}
+
+.store-image {
+    width: 42px
+}
+
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px
+}
+
+.bullet-text {
+    font-size: 12px
+}
+
+.my-color {
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+label.radio {
+    cursor: pointer
+}
+
+label.radio input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+    pointer-events: none
+}
+
+label.radio span {
+    border: 2px solid #8f37aa;
+    display: inline-block;
+    color: #8f37aa;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    text-transform: uppercase;
+    transition: 0.5s all
+}
+
+label.radio .red {
+    background-color: red;
+    border-color: red
+}
+
+label.radio .blue {
+    background-color: blue;
+    border-color: blue
+}
+
+label.radio .green {
+    background-color: green;
+    border-color: green
+}
+
+label.radio .orange {
+    background-color: orange;
+    border-color: orange
+}
+
+label.radio input:checked+span {
+    color: #fff;
+    position: relative
+}
+
+label.radio input:checked+span::before {
+    opacity: 1;
+    content: '\2713';
+    position: absolute;
+    font-size: 13px;
+    font-weight: bold;
+    left: 4px
+}
+.card-body {
+    padding: 0.3rem 0.3rem 0.2rem
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<div class="mt-5 padding-bottom-3x mb-1">
+    <div class="card mb-3">
+        <div class="p-3 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Tracking Order
+                No - </span><span class="text-medium">34VB5540K83</span></div>
+        <div class="card m-3">
+            <div class="card-body  intro">
+                <div class="col"> <strong>Estimated Delivery time:</strong> <br><span>20 Minutes <span></div>
+                <hr>
+                <div class="col"> <strong>Delivery Date:</strong> <br><span>{{DeliveryDate}} <span></div>
+                <hr>
+                <div class="col"> <strong>Medical Store name:</strong> <br><span>{{ShopName}} <span></div>
+                <hr>
+                <div class="col" id='DeliverName'>
+                    <strong>Pickuped BY:
+                    </strong> <br>
+                    <div id='deliver_details'>
+                        <span>Searching...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+        <div class="card m-3">
+        <div class="card-body">
+            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                <div class="step {{order_status}}">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="fa fa-shopping-cart"></i></div>
+                    </div>
+                    <h4 class="step-title">Confirmed Order
+                        <p class='step-subtitle'>Your order has been Confirmed </p>
+                    </h4>
+                </div>
+                <div class="step {{picked_order}}">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="fa fa-user"></i></div>
+                    </div>
+                    <h4 class="step-title">Order picked
+                        <p class='step-subtitle'>Your order has been Picked </p>
+                    </h4>
+                </div>
+                <div class="step {{order_on_way}}">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="fa fa-motorcycle"></i></div>
+                    </div>
+                    <h4 class="step-title">On the way
+                        <p class='step-subtitle'>Order is on the way </p>
+                    </h4>
+                </div>
+                <div class="step {{order_reached}}">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="fa fa-home"></i></div>
+                    </div>
+                    <h4 class="step-title">Reached location
+                        <p class='step-subtitle'>Reached drop location </p>
+                    </h4>
+                </div>
+                <div class="step {{order_completed}}">
+                    <div class="step-icon-wrap">
+                        <div class="step-icon"><i class="fa fa-check"></i></div>
+                    </div>
+                    <h4 class="step-title">Order Completed
+                        <p class='step-subtitle'>Your order has been Completed </p>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container align-items-center">
+        <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" id="notify_me" checked="">
+            <label class="custom-control-label" for="notify_me">Notify me when order is delivered</label>
+        </div>
+        </div>
+        </div>
+        </div>
+       </div>
+       <link rel='stylesheet' href='https://sachinchoolur.github.io/lightslider/dist/css/lightslider.css'>
+       <div class="row ">
+        <div class="p-3 text-center text-white text-lg bg-dark rounded-top"><span class="text-uppercase">Product Details</span></div>
+        <div class="col-lg-7 mb-lg-0 mb-4">        
+                   <div class="card">
+                    <h6>Prescriptions</h6>
+                       <div class="demo p-3">
+                           <ul id="lightSlider">
+                            {%for i in images_data%}
+                               <li data-thumb="/media/{{i}}"> <img src="/media/{{i}}" /> </li>
+                               {%endfor%}
+                           </ul>
+                       </div>
+                   </div>
+                   </div>
+                   <div class="col-lg-5">       
+                   <div class="card">
+                    {%if Items_show %}
+              <div class="col-12">
+                <div class="card mb-4">
+                  <div class="card-header pb-0">
+                    <h6>Products </h6>
+                  </div>
+                  <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                      <table class="table align-items-center mb-0">
+                        <thead>
+                          <tr>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Packing</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quality</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {%for i in items_list%}
+                          <tr>
+                            <td>
+                              <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                  <h6 class="mb-0 text-sm">{{i.Product}}</h6>
+                                </div>
+                              </div>
+                            </td>
+                            <td>
+                              <p class="text-xs font-weight-bold mb-0">{{i.Pack}}</p>
+                           
+                            </td>
+                            <td class="align-middle text-center text-sm">
+                                <p class="text-xs font-weight-bold mb-0">{{i.Quantity}}</p> 
+                            </td>
+                          </tr>
+                          {%endfor%}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {%endif%}
+              <div id='table_2' >
+                <table class="table table_2" style=' margin-bottom:0px;'>
+                    <tbody>
+                        <tr>
+                            <td class="text-bold">&nbsp; &nbsp; &nbsp; Total Pay </td>
+                            <td> <span class='price_icon'> ₹</span class='text-bold'>{{data.total_amount}} </td>
+                        </tr>
+                        <tr>
+                            <td class="text-bold">&nbsp; &nbsp; &nbsp; Payment Mode </td>
+                        <td class=" text-sm" style="font-size: 12px;">
+                            <span class="badge badge-sm bg-gradient-success">{{pay_mode}}</span>
+                            </td>
+                            </tr>
+                    </tbody>
+                </table>
+            </div>
+                      </div></div>
+        
+
+<hr class="line1">
+{% include "includes/footer.html" %}
+</div>
+
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js'></script>
+<script src='https://sachinchoolur.github.io/lightslider/dist/js/lightslider.js'></script>
+<script>
+    $('#lightSlider').lightSlider({
+        gallery: true,
+        item: 1,
+        loop: true,
+        slideMargin: 0,
+        thumbItem: 9
+    });
+</script>
+{% endblock javascripts %}

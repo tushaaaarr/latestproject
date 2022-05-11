@@ -1,0 +1,99 @@
+@charset "utf-8";
+/* CSS Document */
+
+html,body{
+	position:relative;
+	height:100%;}
+	
+	body{
+		margin:0px;
+		
+		padding:0px;
+		font-family:montserrat,sans-serif;
+		background-color:rgba(241,241,241,1.00);}
+		.swiper-slide3{
+			width:120px !important;
+			 }
+		
+		.slider-box3{
+			margin:30px;
+			border-radius: 20% ;
+			padding: 27px;	
+			height:100px;
+			width:100px;
+			position:relative;
+			background-color:#FFFFFF;
+			border-radius: 50%;
+			/* border-radius:3px; */
+			display:flex;
+			flex-direction:column;
+			justify-content:center;
+			align-items:center;
+			text-align:center;
+			border:1px solid rgba(187,187,187,0.40);
+			}
+			.slider-box3 a{
+				text-decoration:none;
+				text-align:center;}
+				.img-box3{
+					height:150px;
+					}
+					.img-box3 img{
+						padding-top: 20px;				height:auto;
+						max-width:100%;
+						max-height:100%;}
+						.time{
+							position:absolute;
+							top:0px;
+							right:20px;
+							color:#f16007;}
+							.detail{
+								display:flex;
+								
+								flex-direction:column;
+								align-items:center;
+								box-sizing:border-box;
+								font-size:13px;
+								line-height:35px;}
+								.price{
+									color:#FFFFFF;
+									background-color:#ff555b;
+									 line-height:20px;}
+									 .cart{
+										 position:absolute;
+										 bottom:0px;
+										 height:45px;
+										 background-color:#ff696e;
+										 width:100%;
+										 display:flex;
+										 justify-content:center;
+										 align-items:center;}
+										 .cart a{
+											 color:#FFFFFF;}
+											 .slider-box3:hover{
+												 box-shadow:2px 2px 12px rgba(47,47,47,0.40);
+												 }
+												 .slider-box3:hover .img-box3 img{
+													 transform:scale(1.07);
+													 transition:all ease 0.3s;
+													}
+													 .cart:hover{
+														 transform:scale(1.1);
+														 background-color:#fe9048;
+							box-shadow:2px 2px 12px rgba(47,47,47,0.40);
+							transition:all ease 0.1s;}
+							
+							.heading{
+								display:flex;
+								justify-content:center;
+							}
+							.heading h1{
+								/*border-left:2px solid #000000;*/
+								/*Border-right:2px solid #000000;*/
+								background-color:light;
+								text-shadow:2px 2px 12px rgba(69,66,66,0.3);
+								padding:0px 10px;
+								color:dark;
+								margin:20px;
+								font-size:30px;
+								font-family:calibri;}

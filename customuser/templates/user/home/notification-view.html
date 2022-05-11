@@ -1,0 +1,379 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Deliver-Requests {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  .main_area {
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+    border-bottom: 1px solid #f4f4f4;
+  }
+
+  #submit {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FF6347;
+    color: #fff;
+    margin: 5px;
+    border: solid #FF6347;
+    font-size: 12px;
+    width: 100%;
+  }
+
+  #sent_bill_image {
+    background-color: #00FF00;
+    color: #fff;
+    border: solid #DCDCDC;
+    border-width: 1px;
+    padding: 5px;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 13px;
+    font-weight: bolder;
+    height: 40px;
+  }
+
+  .top-text-block {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: inherit !important;
+    border-bottom: 1px solid #f4f4f4;
+    position: relative;
+
+    &:hover {
+      &:before {
+        content: '';
+        width: 4px;
+        background: #f05a1a;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+      }
+    }
+
+    &.unread {
+      background: #ffc;
+
+      // &:hover {
+      //   background:#ffd;
+      // }
+    }
+
+    .top-text-light {
+      // color:#ccc;
+      color: #999;
+      font-size: 0.8em;
+    }
+  }
+
+  .top-head-dropdown {
+    .dropdown-menu {
+      width: 350px;
+      height: 300px;
+      overflow: auto;
+    }
+
+    li:last-child {
+      .top-text-block {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .topbar-align-center {
+    text-align: center;
+  }
+
+  .loader-topbar {
+    margin: 5px auto;
+    border: 3px solid #ddd;
+    border-radius: 50%;
+    border-top: 3px solid #666;
+    width: 22px;
+    height: 22px;
+    -webkit-animation: spin-topbar 1s linear infinite;
+    animation: spin-topbar 1s linear infinite;
+  }
+
+  @-webkit-keyframes spin-topbar {
+    0% {
+      -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes spin-topbar {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .SendBtn {
+    padding: 5px;
+    margin: 30px;
+  }
+
+  #reached_location {
+    background-color: #FF6347;
+    color: #fff;
+    border: solid #DCDCDC;
+    border-width: 1px;
+    padding: 5px;
+    width: 100%;
+    font-size: 13px;
+    height: 40px;
+  }
+
+  #reached_location:hover {
+    background-color: #fff;
+    color: #FF6347;
+    border-width: 1px;
+    border: solid #FF6347;
+    border-color: #FF6347;
+  }
+
+  #reached_location span {
+    padding: 5px;
+    font-size: 13px;
+    font-weight: bolder;
+  }
+
+  .images_list {
+    text-align: center;
+
+  }
+
+  .images_list img {
+    margin-left: 0px !important;
+    max-width: 220px !important;
+    max-height: 230px !important;
+
+  }
+
+  .payment_details {
+    color: #fff;
+    background-color: #FF4500;
+    width: 100%;
+    border-radius: 0px;
+    padding: 5px;
+  }
+
+  .payment_details:hover {
+    background-color: #fff;
+    color: #FF4500;
+    border: solid #FF4500;
+    border-width: 1px;
+  }
+
+  #track_order {
+    margin-left: 0px;
+    weight: 100px !important;
+  }
+
+  #track_order p {
+    background-color: #FF4500;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px;
+    border-radius: 0px;
+  }
+
+  #track_order p:hover {
+    color: #FF4500;
+    background-color: #fff;
+    border: solid #FF4500;
+    border-width: 1px;
+  }
+
+  .table {
+    font-size: 11px;
+    font-weight: bolder;
+  }
+
+  #accept_btn {
+    width: 100%;
+    background-color: #00FF00;
+    color: #fff;
+    border: solid #fff;
+    padding: 5px;
+  }
+
+  #accept_btn:hover {
+    color: #00FF00;
+    background-color: #fff;
+    border: solid #00FF00;
+    border-width: 1px;
+    font-weight: bolder;
+    outline: none;
+    background: none;
+  }
+
+  #accept_btn :focus {
+    outline: none;
+    border: none;
+    outline: none;
+    background: none;
+  }
+
+  #decline_btn {
+    width: 100%;
+    background-color: red;
+    color: #fff;
+    border: solid #fff;
+    padding: 5px;
+  }
+
+  #decline_btn:hover {
+    color: red;
+    background-color: #fff;
+    border: solid red;
+    border-width: 1px;
+    font-weight: bolder;
+    outline: none;
+    background: none;
+  }
+
+  #decline_btn :focus {
+    outline: none;
+    border: none;
+    outline: none;
+    background: none;
+  }
+
+  .table_box {
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
+  }
+
+  @media screen and (max-width: 990px) {}
+
+  .chat_page p {
+    background: #D8D8D8;
+    padding: 18px;
+    border-radius: 10px;
+    color: black;
+    font-size: 14px;
+  }
+
+  .msg_time {
+    color: #505050;
+    font-size: 13px;
+  }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid px-3 mt-5">
+  <div class='card h-100 p-3'>
+    <div class="chat_page">
+      <div class="row mt-4">
+        <div class="col-lg-7 mb-lg-0 mb-4">
+          <div class="">
+            <div class="chat_page">
+              <div class="container notification_bar_details mt-5">
+                <p><span class="mt-1 message">{{message_1}}</span>
+                  <br>
+                  <span class="msg_time"><i class='fa fa-clock me-1'></i>{{UsersNotifications.date}}</span>
+                </p>
+                {% if UsersNotifications.order_accept_status == 'not_responded' %}
+                {%else%}
+                <p>
+                  <span class="mt-1 message">{{message_2}}</span>
+                  <br>
+                  <span class="msg_time"><i class='fa fa-clock me-1'></i>{{UsersNotifications.date}}</span>
+                </p>
+                <div id='track_order'>
+                  <a href='/order-tracker/{{UsersNotifications.id}}'>
+                    <p class='btn btn-outline w-100'> <i class="fa fa-truck mr-2"></i> Track Order </p>
+                  </a>
+                </div>
+                {%endif%}
+                <div class='images_list'>
+                  {%if UsersNotifications.order_accept_status == 'rejected'%}
+                  <p><span class="mt-1 message">{{rejection_reason}}</span></p>
+                  <a href='/'>
+                    <button class='btn btn-danger ml-3' style='font-size:12px;'> See other stores</button></a>
+                  <p>
+                    {%elif UsersNotifications.is_bill_uploaded == True%}
+
+                    {%if UsersNotifications.payment_status == 'not_responded' %}
+                    <a href='/customers-billing-page/{{request.user}}/{{myid}}'>
+                      <span class='btn btn-outline payment_details''> Go to Payment details</span></a>
+                </a>
+                {%endif%}
+                {%endif%}
+                {%if UsersNotifications.is_parsel_uploaded == True %}
+                <div class=' images_list'>
+                        <p><span class="mt-1 message">&nbsp;&nbsp;&nbsp;Your Parsel Photo</span></p>
+                        <p>
+                          <a href='/media/{{Parsel_Details.image}}'>
+                            <img src='/media/{{Parsel_Details.image}}'></a>
+                          <span class="msg_time">{{Parsel_Details.date}}</span>
+                        </p>
+                        {%endif%}
+                        {%if UsersNotifications.order_completed == True %}
+                        <p><span class="mt-1 message">Your Order Has been completed Successfully</span>
+                        </p>
+                        {%endif%}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card h-100 p-3">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class='card h-100 p-3 mt-3'>
+    <div class="row">
+      <div class="col-lg-7 mb-lg-0 mb-4">
+        <div class="p-3">
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-lg-7 mb-lg-0 mb-4">
+    <div class="chat_page">
+      <div id="display" class="notification_bar_details mt-5">
+      </div>
+      <div id="notification_for_user" class="notification_bar_details mt-5">
+      </div>
+    </div>
+
+  </div>
+  <br>
+
+
+  <hr class="line1">
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+
+</script>
+{% endblock javascripts %}

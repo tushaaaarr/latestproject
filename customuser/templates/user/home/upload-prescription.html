@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Prescriptions</title>
+    <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css"
+        href="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.css" />
+
+    <style>
+        body {
+            background-color: #eee;
+        }
+
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+        .gallary_box {
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            padding: 10px;
+            margin-left: 200px;
+            margin-right: 200px;
+            margin-top: 30px;
+            padding-bottom: 30px;
+            background: #fff;
+
+        }
+
+        .gallary_box img {
+            height: 20px;
+            width: 20px;
+            margin: 5px;
+        }
+
+        .gallary_box {
+            text-align: center;
+        }
+
+        .gallary_box button {
+            border: none;
+            font-weight: 700;
+        }
+
+        .card img {
+            height: 150px;
+            max-width: 150px;
+        }
+
+        .card {
+            width: 14rem;
+            height: 15rem;
+        }
+
+        .upload_box {
+            width: 500px;
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+            border-color: #777;
+            background-color: #fff !important;
+            margin-top: 100px;
+            padding: 10px;
+        }
+
+        .upload_box {
+            width: 700px;
+            box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+            border-color: #777;
+            background-color: #fff !important;
+            margin-top: 100px;
+            padding: 10px;
+            margin-bottom: 30px;
+        }
+
+        .upload_box h2 {
+            font-size: 18px;
+            font-weight: italic;
+        }
+
+        .row {
+            margin: 12px;
+        }
+
+        .upload_box input {
+            margin-top: 26px;
+            font-size: 14px;
+            border-radius: 10px;
+        }
+
+        #add_button {
+            background-color: #FF8C00;
+            font-size: 14px;
+            border: solid #fff;
+            border-radius: 10px;
+            margin-top: 24px;
+        }
+
+        #remove_btn {
+            background-color: #FF0000;
+            font-size: 13px;
+            border: solid #fff;
+            border-radius: 10px;
+            margin-top: 24px;
+        }
+
+        #submit_btn {
+            text-transform: center;
+            background-color: #000080;
+            color: #fff;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            width: 150px;
+            border-color: #fff;
+            height: 35px;
+
+        }
+
+        #submit_btn:hover {
+            background-color: #fff;
+            color: #000080;
+            border: solid #000080;
+            border-width: 0.5px;
+
+        }
+
+        #instructions {
+            width: 100%;
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            box-sizing: border-box;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 10px;
+            text-align: center;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        #instructions:focus {
+            border: 1px solid #000080;
+            outline: none;
+        }
+
+
+        #button_1 {
+            margin-top: 30px;
+            text-transform: center;
+            background-color: #000080;
+            color: #fff;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            width: 200px;
+            font-size: 15px;
+            padding: 12px;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        #button_1:hover {
+
+            background-color: #fff;
+            color: #000080;
+            border: solid #000080;
+            border-width: 0.5px;
+
+        }
+
+        #button_2 {
+            margin-top: 30px;
+            text-transform: center;
+            background-color: #000080;
+            color: #fff;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            width: 200px;
+            font-size: 15px;
+            padding: 12px;
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        #button_2:hover {
+
+            background-color: #fff;
+            color: #000080;
+            border: solid #000080;
+            border-width: 0.5px;
+
+        }
+
+        .pres_cart {
+            text-transform: center;
+            background-color: #FF6347;
+            color: #fff;
+            display: inline-block;
+            width: 70px;
+            font-size: 10px;
+            position: absolute;
+            font-weight: bold;
+            bottom: 10px;
+            border-radius: 15px;
+        }
+
+        .pres_cart:hover {
+            background-color: #fff;
+            color: #FF8C00;
+            border: solid #FF8C00;
+            border-width: 0.5px;
+
+        }
+
+        #prev_date {
+            display: inline-block;
+            width: 70px;
+            font-size: 10px;
+            position: absolute;
+            font-weight: bold;
+            bottom: 40px;
+        }
+
+        #loader_gif {
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader_gif img {}
+
+        .gg-file-add {
+            background:
+                linear-gradient(to bottom,
+                    currentColor 5px, transparent 0) no-repeat 2px 9px/6px 2px;
+            box-sizing: border-box;
+            position: relative;
+            display: block;
+            transform: scale(var(--ggs, 1));
+            width: 14px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-right: 0;
+            border-top: 0;
+            box-shadow: 0 0 0 2px;
+            border-radius: 1px;
+            border-top-right-radius: 4px;
+            overflow: hidden
+        }
+
+        .gg-file-add::after,
+        .gg-file-add::before {
+            content: "";
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+            height: 6px
+        }
+
+        .gg-file-add::before {
+            background: currentColor;
+            left: 4px;
+            width: 2px;
+            top: 7px
+        }
+
+        .gg-file-add::after {
+            width: 6px;
+            border-left: 2px solid;
+            border-bottom: 2px solid;
+            right: -1px;
+            top: -1px
+        }
+
+        .gg-timer,
+        .gg-timer::before {
+            border: 2px solid;
+            width: 18px;
+            height: 18px;
+            border-radius: 40px
+        }
+
+        .gg-timer {
+            background:
+                linear-gradient(to left,
+                    currentColor 10px, transparent 0) no-repeat 6px -2px/2px 6px;
+            box-sizing: border-box;
+            transform: scale(var(--ggs, 1));
+            position: relative;
+            display: block;
+            border-top-color: transparent
+        }
+
+        .gg-timer::after,
+        .gg-timer::before {
+            content: "";
+            display: block;
+            box-sizing: border-box;
+            position: absolute
+        }
+
+        .gg-timer::before {
+            border-right-color: transparent;
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            right: -2px;
+            top: -2px;
+            transform: rotate(45deg)
+        }
+
+        .gg-timer::after {
+            width: 2px;
+            height: 6px;
+            background: currentColor;
+            transform: rotate(-50deg);
+            left: 4px;
+            bottom: 5px;
+            border-radius: 100px
+        }
+
+        #timer_icon {
+            position: absolute;
+            margin-top: 0px;
+        }
+
+        #gallary_icon {
+            position: absolute;
+            margin-top: 0px;
+        }
+
+        /*Mobile - view*/
+        @media screen and (max-width: 768px) {
+            .upload_box {
+                width: 320px;
+                box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.2);
+                border-color: #777;
+                background-color: #fff !important;
+                margin-top: 20px;
+                padding: 20px;
+            }
+
+            .upload_box input {
+                margin-top: 26px;
+                font-size: 12px;
+                border-radius: 10px;
+            }
+
+            #add_button {
+                background-color: #FF8C00;
+                font-size: 10px;
+                border: solid #fff;
+                border-radius: 10px;
+                margin-top: 10px;
+                padding: 7px;
+                color: #fff;
+
+            }
+
+            #remove_btn {
+                background-color: #FF0000;
+                font-size: 10px;
+                border: solid #fff;
+                border-radius: 10px;
+                margin-top: 10px;
+            }
+
+            #submit_btn {
+                text-transform: center;
+                background-color: #000080;
+                color: #fff;
+                margin-bottom: 10px;
+                border-radius: 10px;
+                width: 100%;
+                font-size: 12px;
+                font-weight: bolder;
+                /*margin-top: 0px;*/
+            }
+
+            .upload_box label {
+                font-size: 12px;
+                margin-left: 2px;
+            }
+
+        }
+
+        #noti_bar {
+            display: none;
+        }
+
+        .notification_bar {
+            height: 200px;
+            background: rgba(0, 0, 0, .4);
+            cursor: pointer;
+            height: 100%;
+            z-index: 10000;
+            display: inline-block;
+            background-color: #fff;
+            box-shadow: 10px 10px 60px #555;
+            height: auto;
+            max-width: 551px;
+            min-height: 100px;
+            border-radius: 8px;
+            padding: 15px 5%;
+            margin-right: 25%;
+            margin-left: 10%;
+            margin-top: 15%;
+            position: absolute;
+            text-align: center;
+            width: 80%;
+        }
+
+        /*#loader_gif{
+  display:inline-block;
+   width: 70px;
+   font-size: 10px;
+   position: absolute;
+   font-weight: bold;
+   margin-top: 75%;
+}*/
+
+
+        /* Input Box */
+
+        .input_product {
+            font-size: 12px;
+            paddding-left: 30px;
+            margin-left: 22px;
+            min-width: 200px;
+            width: auto;
+            height: 29px;
+            border: solid #DCDCDC;
+            border-width: 1px;
+            margin-top: 30px;
+            margin-bottom: 5px;
+            margin-right: 15px;
+        }
+
+        .packing option,
+        .type_box select {
+            color: #000080 !important;
+        }
+
+        .prod_quantity option,
+        .type_box select {
+            color: #000080 !important;
+        }
+
+        #skill_row input {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .input_product:focus {
+            outline: none;
+            border: 1px solid #000080 !important;
+            border-width: 1px;
+        }
+
+        .input_product {
+            font-size: 12px !important;
+        }
+
+        .prod_quantity {
+            height: 30px;
+            border: solid #DCDCDC;
+            border-width: 1px;
+            background: #fff;
+        }
+
+        .prod_quantity:focus {
+            outline: none;
+            border: 1px solid #000080 !important;
+            border-width: 1px;
+        }
+
+        .packing {
+            height: 30px;
+            border: solid #DCDCDC;
+            border-width: 1px;
+            margin: 4px;
+            background: #fff;
+        }
+
+        .packing:focus {
+            outline: none;
+            border: 1px solid #000080 !important;
+            border-width: 1px;
+        }
+
+        .type_box {
+            padding: 10px;
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .pers_form {
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: 1px solid #DCDCDC;
+            border-radius: 20px;
+            outline: none;
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+            height: 40px;
+            width: 100%;
+        }
+
+        .pers_form:focus {
+            border: 1px solid #000080;
+            outline: none;
+        }
+
+        .un {
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border-radius: 20px;
+            outline: none;
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+            height: 40px;
+            width: 100%;
+            border: 1px solid #DCDCDC;
+        }
+
+        .un:focus {
+            border: 1px solid #000080 !important;
+        }
+
+        .packing {
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 1px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            text-align: center;
+            height: 40px;
+            margin: 0px;
+            margin-left: 20px;
+        }
+
+        .packing:focus {
+            border: 1px solid #89dee2 !important;
+        }
+
+        .packing select {
+            font-weight: bold;
+            text-align: left;
+            color: #000080;
+        }
+
+        .prod_quantity {
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 12px;
+            letter-spacing: 1px;
+            background: rgba(136, 126, 126, 0.04);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, 0.02);
+            margin-bottom: 10px;
+            text-align: center;
+            margin-bottom: 5px;
+            height: 40px;
+            margin-top: 0px !important;
+            margin-left: 20px;
+        }
+
+        .sec_div p {
+            font-weight: 700;
+            color: hsl(240, 100%, 25%);
+        }
+
+        .sec_div input {
+            background: rgba(136, 126, 126, 0.04);
+            border: 1px solid #DCDCDC;
+            margin-top: 4px;
+            color: rgb(38, 50, 56);
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .sec_div input:focus {
+            outline: none;
+            border: 1px solid #000080;
+        }
+
+        #input_type_box p {
+            color: #000080;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .btn-block{
+            color:#000080;
+            font-weight: 700;
+            font-size: 13px;
+        }
+        @media screen and (max-width: 768px) {
+
+            .gallary_box {
+                box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+                padding: 10px;
+                margin: 10px;
+                background: #fff;
+                margin-top: 30px;
+                padding-bottom: 30px;
+            }
+
+            .card {
+                width: 10rem;
+                height: 15rem;
+            }
+
+            .card img {
+                height: 140px;
+                max-width: 150px;
+            }
+        }
+        .loader {
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    {% for message in messages %}
+    <div class=" alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong></strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {%endfor%}
+
+
+    <div id='SendConfirmation' class="alert alert-success alert-dismissible fade show notification_bar"
+        style="position: fixed;display: block;margin-top: 20%;display: none;" role="alert">
+        <strong></strong> Do you want to add any products from your cart"
+        <br><br>
+        <button class="btn btn-outline"
+            style="color: #fff;background-color: red;font-size: 10px;width: 70px;">Yes</button>
+        <button class="btn btn-outlin mx-3"
+            style="color: red;background-color: #fff;font-size: 10px;border-color: red;width: 70px;"
+            onclick="change()">No</button>
+    </div>
+
+
+
+    <div id='loader' style="display: none;">
+        <div id="loader_gif">
+            <img src="https://www.stamforduniversity.edu.bd/asset/includes/loader/processing.gif" style="width: 100px;">
+        </div>
+    </div>
+
+
+
+    <div class="gallary_box">
+        <button id="button_1" type="submit" onclick="PreviousPrescriptios()">
+            <i class="gg-timer" id='timer_icon'></i>
+            <span>Previous Prescriptions</span> </button>
+        <br>
+        <i class="fa fa-check"></i>
+        <button id="button_2" type="submit" onclick="ChooseGallary()">
+            <i class="gg-file-add" id='gallary_icon'></i><span>Choose from gallary</span></button>
+    </div>
+
+    <div class="filterDiv all" id="Previous_10" style="display: none;">
+        <div class="my-5">
+            <div class="row">
+                {% for i in previus_10 %}
+
+                <div class="card mx-auto my-2 p-2 align-items-center">
+                    <a href="/media/{{i.image}}" target="_blank">
+                        <img src="/media/{{i.image}}"></a>
+                    <button id='{{i.id}}' class="pres_cart btn"><span id="{{i.id}}">Add</span></button>
+                    <p id="prev_date"> {{i.date}}</p>
+                </div>
+
+                {%endfor%}
+
+
+
+
+            </div>
+            <div class="text-center">
+                <form method='post'>
+                    {% csrf_token %}
+                    <input type="hidden" name="PresItems" id="PresItems">
+                    <button id="submit_btn" type="submit">Proceed</button>
+                </form>
+                <!-- <button  type="submit" class="btn btn-outline" >Send</button> -->
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="upload_box container" id="upload_bar" style="display: none;">
+        <div class="text-center">
+            <h2>UPLOAD PRESCRIPTIONS</h2>
+        </div>
+        <form method="post" id="myUniqueUploadId" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+            <div class="row">
+            </div>
+            <div class="custom-file-container mt-4" data-upload-id="myUniqueUploadId" style="margin: 26px;">
+                <label>Upload images here
+                    <a href="javascript:void(0)" class="custom-file-container__image-clear"
+                        title="Clear Image"></a></label>
+                <label class="custom-file-container__custom-file">
+                    <input type="file" name="images" class="custom-file-container__custom-file__custom-file-input"
+                        accept="*" multiple aria-label="Choose File" />
+                    <input type="hidden" name="MAX_FILE_SIZE" value="10485760" name="input_image" />
+                    <span class="custom-file-container__custom-file__custom-file-control"></span>
+                </label>
+                <div class="custom-file-container__image-preview"></div>
+            </div>
+            <div class="text-center">
+                <input type='text' class='instructions' id='instructions' name='instructions'
+                    placeholder='Drop some Instrucitons...'>
+                <button id="submit_btn" type="submit" onclick='Proceed()'>Proceed</button>
+            </div>
+        </form>
+    </div>
+    <div class="loader">
+            <img src="https://www.stamforduniversity.edu.bd/asset/includes/loader/processing.gif" style="width: 100px;">
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+//Loading gif
+$(".loader").fadeOut("slow")
+function Proceed(){
+    $(".loader").fadeIn("slow")
+}
+        var upload = new FileUploadWithPreview("myUniqueUploadId");
+        var current_count_for_skills = 0
+        function addInputForSkills() {
+
+            var html = ` 
+            <div style="margin: 10px;" class="row mt-3" id="input_skill_${current_count_for_skills}"> 
+            <div class="form-group col-md-8">
+                    <input class="form-control" required name="skills" type="text" placeholder="Enter decription" style="font-size:13px;margin-top:26px;">
+                </div>  
+                <div class="form-group col-md-4">
+                    <button id='remove_btn' type="button" onclick="removeSkillInput(${current_count_for_skills})" class="btn btn-danger" id>Delete</button>
+                </div>
+                </div>`
+
+            document.getElementById('skill_row').innerHTML += html
+
+            current_count_for_skills++
+        }
+        function removeSkillInput(id) {
+            var element = document.getElementById(`input_skill_${id}`);
+            element.remove()
+        }
+    </script>
+    <script>
+        localStorage.clear();
+        var pres_cart = {}
+        if (localStorage.getItem('pres_cart') == null) {
+            var pres_cart = {}
+        }
+        else {
+            pres_cart = JSON.parse(localStorage.getItem('pres_cart'));
+        }
+        $('.pres_cart').click(function () {
+            var idstr = this.id
+            ChangeHtml(idstr)
+            pres_cart[parseInt(idstr)] = parseInt(idstr)
+            localStorage.setItem('pres_cart', JSON.stringify(pres_cart));
+            total_presc = JSON.parse(localStorage.getItem('pres_cart'));
+            $('#PresItems').val(JSON.stringify(total_presc));
+        });
+
+        // Change add button color and text
+        function ChangeHtml(val) {
+            document.getElementById(val).style.background = '#00FF00';
+            var html = ` 
+          <span id="remove_${val}" onclick='Removepres_cartItem(${val})'> Added </span>`
+            document.getElementById(val).innerHTML = html
+        }
+
+        function Removepres_cartItem(val) {
+            document.getElementById(`remove_${val}`).style.background = 'blue';
+            var html = `<span id="${val}">Add</span>`
+            document.getElementById(`remove_${val}`).innerHTML = html;
+        }
+        // SendButton
+        function ChangeHtmlSend() {
+            $("#loader").show().delay(2000).fadeOut();
+
+            document.getElementById("submit_btn").style.background = '#00FF00';
+            document.getElementById("submit_btn").innerHTML = 'Sent';
+
+            setTimeout(function () {
+                document.getElementById('noti_bar').style.display = 'block';
+            }, 3000);
+
+            setTimeout(function () {
+                document.getElementById('noti_bar').style.display = 'none';
+            }, 5000);
+
+        }
+
+        // PreviousPrescriptios button
+        function PreviousPrescriptios() {
+            $("#loader").show().delay(1000).fadeOut();
+            document.getElementById('Previous_10').style.display = 'block';
+            document.getElementById('upload_bar').style.display = 'none';
+        }
+
+        function ChooseGallary() {
+            $("#loader").show().delay(1000).fadeOut();
+            document.getElementById('upload_bar').style.display = 'block';
+            document.getElementById('Previous_10').style.display = 'none';
+        }
+
+        var current_count_for_skills = 0
+        function addInputForSkills() {
+            var html = `<hr>
+         <div class='type_box row' id="input_skill">
+            <div class="d-flex flex-column h-100">
+    <form method="post" action="/checkout" enctype="multipart/form-data">
+    {%csrf_token%}
+    <div class=''>
+        <input class="un" placeholder="Type Medicine name" name='input_product' type='text'>
+        <span class=''>
+            <select class="packing" name='packing'>
+                <option class='active name'>Pack</optxion>
+                <option value='Strip'>Strip</option>
+                <option value='Tablet'>Tablet</option>
+                    <option value='Syrup'>Syrup</option>
+                    <option value='Tube'>Tube</option>
+                    <option value='Jelly'>Jelly</option>
+                    <option value='Ointment'>Ointment</option>
+                    <option value='Ampule'>Ampule</option>
+                    <option value='Vial'>Vial</option>
+                    <option value='Sachet'>Sachet</option>
+                    <option value='Bottle'>Bottle</option>
+                    <option value='Packet'>Packet</option>
+                </select>
+            </span>
+            <span>
+                <select class="prod_quantity" name='prod_quantity'>
+                    <option class='active name' style='margin-left:0px;padding-left:0px;'>
+                        Quality</optxion>
+                    <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='1'>5</option>
+                    <option value='10'>10</option>
+                    <option value='15'>15</option>
+                    <option value='20'>20</option>
+                </select>
+            </span>
+        </div>
+        <button id="submit_btn" type="submit">Proceed</button>`
+            document.getElementById('skill_row').innerHTML += html;
+            current_count_for_skills++
+        }
+        function removeSkillInput() {
+            var element = document.getElementById(`input_skill`);
+            element.remove()
+        }
+        
+
+    </script>
+</body>
+
+</html>

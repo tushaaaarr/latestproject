@@ -1,0 +1,535 @@
+{% extends 'app-view/user/layouts/base.html' %}
+
+{% block title %} Deliver-Requests {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    #enteramount {
+        margin-top: 10px;
+        width: 100%;
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
+        border: 2px solid rgba(0, 0, 0, 0.02);
+        text-align: center;
+
+    }
+
+    #enteramount:focus {
+        border: 1px solid #000080;
+        ;
+    }
+
+    #sent_amount {
+        background-color: #00FF00;
+        color: #fff;
+        border: solid #DCDCDC;
+        border-width: 1px;
+        width: 100%;
+        margin-top: 5px;
+        font-size: 13px;
+        font-weight: bolder;
+        height: 40px;
+    }
+
+    input[type='file'] {
+        opacity: 0
+    }
+
+    input[type='file'] {
+        color: rgba(0, 0, 0, 0)
+    }
+
+    .track1 {
+        position: absolute;
+        background: #fff;
+        height: 40px;
+        display: flex;
+        width: 3px;
+        margin-top: 3px;
+        margin-left: 8px;
+        margin-bottom: 3px;
+    }
+
+    .track .step {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 25%;
+        margin-top: -18px;
+        text-align: center;
+        position: relative
+    }
+
+    .track .step.active:before {
+
+        background: #32CD32;
+    }
+
+    .track1 .step::before {
+        height: 7px;
+        position: absolute;
+        content: "";
+        width: 100%;
+        left: 0;
+        top: 18px
+    }
+
+    .track .step.active .icon {
+        background: #000080;
+        color: #fff
+    }
+
+    .icon i {
+        font-size: 9px;
+        margin-top: 0px;
+
+    }
+
+    .track .icon {
+        display: inline-block;
+        width: 18px;
+        height: 19px;
+        line-height: 18px;
+        position: relative;
+        border-radius: 100%;
+        background: #ddd;
+
+        background: #fff;
+        color: #fff;
+
+    }
+
+    .track .step.active .text {
+        font-weight: 400;
+        color: #000
+    }
+
+    .track .text {
+        display: block;
+        font-size: 11px;
+    }
+
+    .box {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 5px;
+        height: 300px;
+        background-color: #E6E6FA;
+        margin: 50px;
+    }
+
+    .text {
+        position: absolute;
+        left: 210px;
+        top: 82px;
+        font-weight: bolder;
+        color: #000080;
+        display: flex;
+    }
+
+    .text2 {
+        position: absolute;
+        left: 210px;
+        top: 140px;
+        display: flex;
+        font-size: 12px;
+        font-weight: bolder;
+        color: #000080;
+    }
+
+    .text3 {
+        position: absolute;
+        left: 210px;
+        top: 215px;
+        display: flex;
+        font-size: 11px;
+        font-weight: bolder;
+        color: #000080;
+    }
+
+    #clickphoto:hover {
+        color: #000080;
+        border: 1px solid #000080;
+        background-color: #fff;
+    }
+
+    #clickphoto:focus {
+        outline: none;
+    }
+
+    .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+
+
+    }
+
+    .modal[open] {
+        display: flex;
+    }
+
+    #demo-modal h3 {
+        font-size: 15px;
+    }
+
+    .model-inner {
+        background-color: white;
+        border-radius: 0.5em;
+        max-width: 600px;
+        padding: 2em;
+        margin: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid black;
+    }
+
+    #modal-overlay {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        background-color: black;
+        opacity: 0.5;
+    }
+
+    #sent_bill_image {
+        background-color: #00FF00;
+        color: #fff;
+        border: solid #DCDCDC;
+        border-width: 1px;
+        padding: 5px;
+        width: 100%;
+        margin-top: 5px;
+        font-size: 13px;
+        font-weight: bolder;
+        height: 40px;
+    }
+
+    #button {
+        display: inline-block;
+        background-color: indigo;
+        color: white;
+        padding: 0.5rem;
+        font-family: sans-serif;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        width: 80%;
+
+    }
+
+    #button span {
+        font-size: 13px;
+        padding: 5px;
+    }
+
+    .Input {
+        text-align: center;
+    }
+
+    #submit,
+    #sendamount,
+    #acceptbtn {
+        background-color: #000080;
+        color: #ffffff;
+        border: solid #000080;
+    }
+
+    .parsalimage_div {
+        width: 100%;
+    }
+
+    .parsalimage_div {
+        text-align: center;
+    }
+
+    .parsalimage_div img {
+        height: 20px;
+        position: absolute;
+        margin-right: 25px;
+        margin-top: 25px;
+        margin-left: 25px;
+    }
+
+    .modal-body p {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 0px;
+    }
+
+    .customeradd_div h4 {
+        font-size: 14px !important;
+        color: gray;
+    }
+
+    .btn_area {
+        margin: 10px;
+    }
+
+    .btn_area {
+        text-align: center;
+    }
+
+
+    .modal-dialog {
+        margin-top: 10%;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 500px;
+    }
+
+    @media screen and (max-width: 990px) {
+        .box {
+            box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+            padding: 5px;
+            height: 200px;
+            background-color: #E6E6FA;
+            margin: 10px;
+        }
+
+        .text {
+            position: absolute;
+            left: 88px;
+            top: 43px;
+            font-weight: bolder;
+            color: #000080;
+            display: flex;
+        }
+
+        .text2 {
+            position: absolute;
+            left: 88px;
+            top: 98px;
+            display: flex;
+            font-size: 12px;
+            font-weight: bolder;
+            color: #000080;
+        }
+
+        .text3 {
+            position: absolute;
+            left: 88px;
+            top: 167px;
+            display: flex;
+            font-size: 11px;
+            font-weight: bolder;
+            color: #000080;
+        }
+
+        #clickphoto {
+            margin-left: 79px;
+            background-color: #000080;
+            border: solid #fff;
+            color: #fff;
+            font-size: 11px;
+            font-weight: bolder;
+            border-width: 1px;
+            padding: 7px;
+            width: 100px;
+            text-align: center;
+        }
+
+        .modal-dialog {
+            margin-top: 20%;
+            width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 500px;
+        }
+
+        #button:hover {
+            color: indigo;
+            background-color: white;
+            border: 1px solid indigo;
+        }
+
+        #submit,
+        #sendamount,
+        #acceptbtn {
+            background-color: #000080;
+            color: #ffffff;
+            border: solid #000080;
+        }
+
+        #submit:hover,
+        #sendamount:hover,
+        #acceptbtn:hover {
+            color: #000080;
+            background-color: #ffffff;
+            border: 1px solid #000080;
+        }
+
+        #submit:focus,
+        #sendamount:focus,
+        #acceptbtn:focus {
+            outline: none;
+        }
+    }
+
+    #loader,
+    #loader2,
+    #loader3 {
+        height: 14px !important;
+        width: 14px;
+        margin-left: 10px;
+    }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid px-3 mt-5">
+    {%if OrdersObj.order_accept_status == 'rejected' %}
+    <form method='post'>
+        {%csrf_token%}
+        <select class="form-select" aria-label="Default select example" name="rejection_reason">
+            <option selected>Select Reason</option>
+            <option value="1">Not in Stock </option>
+            <option value="2">Invaid Prescription</option>
+            <option value="3">Required doctors Prescription</option>
+        </select>
+        <div class="container text-center mt-3">
+            <button class="btn btn-primary " type="submit">Submit</button>
+        </div>
+    </form>
+    {%else%}
+    <div class='card h-100 p-3'>
+        <div class='box'>
+            <br>
+            <div class="track">
+                <div class="step active" id='order_completed'>
+                    <span class="icon"><i class="fa fa-check"></i>
+                        <div class='track1'>
+                        </div>
+                    </span>
+                </div>
+                <span class='text'>1.Request Accepted</span>
+                <br>
+                <br>
+                <div class="step {{bill_uploaded}}" id='order_completed'>
+                    <span class="icon"><i class="fa fa-check"></i>
+                        <div class='track1'>
+                        </div>
+                    </span>
+                </div><span class='text2'>2.Order bill photo varified</span>
+                {%if not OrdersObj.is_bill_uploaded%}
+                <span type='submit' id='clickphoto' data-bs-toggle="modal" data-bs-target="#SendBill"> <i
+                        class='fa fa-camera'></i>&nbsp;Click Photo</span>
+                {%endif%}
+                <br>
+                <br>
+                <div class="step {{filled_amount}}" id='order_completed'>
+                    <span class="icon"><i class="fa fa-check"></i>
+                        <div class='track1'>
+                        </div>
+                    </span>
+                </div>
+                <span class='text3'>3.Amount Sent Successfully</span>
+                {%if AmountFilled == False %}
+                <span type='submit' id='clickphoto' data-bs-toggle="modal" data-bs-target="#SendAmount">Click
+                    Amount</span>
+                {%endif%}
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class='btn_area'>
+                <button class="btn btn-primary w-100" id='acceptbtn' name='process_completed' value='process_completed'>
+                    <span>Process Completed<span>
+                </button>
+            </div>
+        </form>
+
+        <div class="modal fade" id="SendBill" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p class="text-dark font-weight-bolder">Sending order bill photo</p>
+                        <form method="POST" name="inputForm" enctype='multipart/form-data'>
+                            {% csrf_token %}
+                            <div class='parsalimage_div'>
+                                <input type="file" capture="environment" name='inputbillimage' id="parsel_image"
+                                    hidden />
+                                <label for="parsel_image" id='button'><span>
+                                        <i class='fa fa-camera'></i>&nbsp;Open Camera</span></label>
+                                <div class='text-center'>
+                                    <button type="submit" id="submit" class='btn btn-primary w-60 mt-3'>Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="SendAmount" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p class="text-dark font-weight-bolder">Sending total bill amount</p>
+                        <form method='post'>
+                            {% csrf_token %}
+                            <input type="search" name='enteramount' id="enteramount" placeholder="Enter amount in digit"
+                                aria-label="Search">
+                            <div class="text-center mt-1">
+                                <button type="submit" class='btn btn-primary w-60 mt-1' id="sendamount"> Send
+                                    Amount</button>
+                            </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}
+</div>
+<br>
+<hr class="line1">
+{% include "includes/footer.html" %}
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    //Send Bill Image Button loader
+    $('#submit').click(function () {
+        document.getElementById('submit').innerHTML = `Uploading..<span class="spinner-border" role="status" id='loader2'>
+  </span>`
+    });
+
+    //Send Amount Image Button loader
+    $('#sendamount').click(function () {
+        document.getElementById('sendamount').innerHTML = `Sending..<span class="spinner-border" role="status" id='loader3'>
+  </span>`
+    });
+
+    // Rename after click photo
+    document.getElementById("parsel_image").onchange = function () {
+        var html = `<span><i class='fa fa-check'></i>&nbsp; Photo Captured </span>`;
+        document.getElementById('button').innerHTML = html;
+    };
+
+    $('#acceptbtn').click(function () {
+        document.getElementById('acceptbtn').innerHTML = `
+  <span>Proceeding..<span class="spinner-border" role="status" 
+    id='loader'></span></span>`;
+
+    }); 
+</script>
+{% endblock javascripts %}

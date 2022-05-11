@@ -1,0 +1,111 @@
+{% extends 'app-view/user/layouts/base.html' %}
+{% block title %} Notifications {% endblock title %}
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+  *html,body{
+    background-color: #ffffff !important;
+  }
+.noti_bar{
+    list-style-type:none;
+    margin-top: 10px;
+     padding: 0px;
+}
+@media screen and (max-width: 990px) {
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container p-1">
+<div class='card h-100'>
+    <ul class="noti_bar" id="noti_bar">
+      {%for i in messages_list %}
+      <li class='mb-2'>
+          <a class='dropdown-item border-radius-md' href='/app-view/users-notification/details/{{i.senderId}}/{{i.id}}'>
+            <!-- <a data-bs-toggle="modal" data-bs-target="#modalNotificationExpand" > -->
+            <div class='d-flex py-1'>
+              <div class='my-auto'>
+                <img src='/media/{{i.photo}}' class='avatar avatar-sm  me-3'>
+              </div>
+              <div class='d-flex flex-column justify-content-center'>
+                <h6 class='text-sm font-weight-normal mb-1'>
+                  <span class='font-weight-bold'>Notification</span> from {{i.sender}}</h6>
+                <p class='text-xs text-secondary mb-0'>
+                  <i class='fa fa-clock me-1'></i>
+                  {{i.date}}
+                </p>
+              </div>
+            </div>
+          </a>
+          </li>
+          <hr style='padding:0px;margin:0px;'>
+          {%endfor%}
+      </ul>
+    </div>
+</div>
+</div>
+<br>
+
+ <!-- Modal Content -->
+ <div class="modal fade" id="modalNotificationExpand" tabindex="-1" role="dialog" aria-hidden="true"
+ style="position: absolute;width: 100%;height:100%;bottom:0px;">
+ <div class="modal-dialog modal-dialog-centered" role="document">
+     <div class="modal-content">
+         <i type='button' class="fa fa-times" aria-hidden="true"  data-bs-dismiss="modal" aria-label="Close" ></i>
+         <div class="modal-body px-md-5">
+             <div class="col-lg-12 sec_div">
+                 <div class="card h-100 p-3">
+                            
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>
+       <hr class="line1"> 
+{% include "includes/footer.html" %}  
+    </div>   
+{% endblock content %}
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+//     $(document).ready(function () {
+//   setInterval(function () {
+//     $.ajax({
+//       type: 'GET',
+//       url: "/get_users_notifications",
+//       success: function (response) {
+//         // console.log(response);
+//         $("#noti_bar").empty();
+//         for (var key in response.noti_for_users) 
+//         {
+//           var temp = `
+//           <li class=;mb-2'>
+//           <a class='dropdown-item border-radius-md' href='/app-view/users-notification/details/${response.noti_for_users[key].senderId}/${response.noti_for_users[key].id}'>
+//             <div class='d-flex py-1'>
+//               <div class='my-auto'>
+//                 <img src='/media/${response.noti_for_users[key].photo}' class='avatar avatar-sm  me-3 '>
+//               </div>
+//               <div class='d-flex flex-column justify-content-center'>
+//                 <h6 class='text-sm font-weight-normal mb-1'>
+//                   <span class='font-weight-bold'>Notification</span> from ${response.noti_for_users[key].sender}</h6>
+//                 <p class='text-xs text-secondary mb-0'>
+//                   <i class='fa fa-clock me-1'></i>
+//                   ${response.noti_for_users[key].date
+//         }
+//                 </p>
+//               </div>
+//             </div>
+//           </a>
+//           </li>
+//           <hr style='padding:0px;margin:0px;'>`
+//           $("#noti_bar").append(temp)
+//         }
+//       },});
+//   },1000);
+// })
+
+// </script>
+
+{% endblock javascripts %}

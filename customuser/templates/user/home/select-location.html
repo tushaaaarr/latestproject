@@ -1,0 +1,348 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Select-Location {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    /* Location Modal */
+    .search_mod_body p {
+        font-weight: 700;
+        color: #696969;
+        margin-top: 10px;
+    }
+
+    .search_mod_body h2 {
+        font-size: 14px;
+        margin-top: 12px;
+        font-weight: 500;
+    }
+
+    .search_mod_body h1 {
+        font-weight: 500;
+        color: #696969;
+        font-size: 16px;
+    }
+
+    .search_mod_body i {
+        position: absolute;
+        right: 10px;
+        margin-top: 12px !important;
+    }
+
+    .search_mod_dialog {
+        height: 100%;
+        width: 100%;
+        padding-right: 4px;
+        margin-left: 2px;
+        margin-left: auto;
+    }
+
+    .search_mod_content {
+        height: 80%;
+        width: 100%;
+    }
+
+    .search_mod_body h2 {
+        font-size: 14px;
+        color:#000080;
+        margin-left:10px;
+    }
+
+    #normal-select-1 {
+        width: 200px;
+    }
+
+    .container-fluid p {
+        font-weight: 700;
+    }
+
+    .result_card1 button {
+        width: 100%;
+        font-size: 10px !important;
+        padding: 2px;
+        margin-top: 3px;
+        border: 1px solid #000080;
+        color: #000080;
+        background-color: #fff;
+        border-radius: 5px;
+    }
+    .result_card1 h5 {
+        font-size: 13px;
+    }
+    .recent_loc{
+        font-size:13px;
+    }
+    /* Medical List */
+    .main_start {
+        display: block;
+        margin-top: 0px;
+        background: #FFFFFF;
+        border-radius: 1.5rem;
+        box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+        padding: 5px;
+        margin: 0px;
+    }
+
+    .main_start .card {
+        height: 14rem;
+        border: 1px solid #000080;
+        width: 10rem;
+    }
+
+    .main_start .img-box1 {
+        height: 130px;
+    }
+
+    .main_start h4 {
+        font-size: 13px;
+        padding: 0px;
+        margin: 0px;
+        color: #000080;
+        font-weight: 700;
+    }
+
+    .distance_km h4 {
+        font-size: 12px;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: #000080;
+        background: #FFFFFF;
+        border: 1px solid #000080;
+        padding: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .main_start p {
+        font-size: 15px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .btn-block {
+        background-color: #fff;
+    }
+    #search-input:focus{
+        border:1px solid #000080 !important;
+        outline:none;
+    }
+    @media screen and (max-width: 990px) {
+        .div_img {
+            display: none;
+        }
+
+        .card1 {
+            display: none;
+        }
+    }
+    .loader {
+        position: fixed;
+            z-index: 99;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container-fluid row mt-4">
+    <div class="loader">
+        <img src="https://www.stamforduniversity.edu.bd/asset/includes/loader/processing.gif" style="width: 100px;">
+</div>
+    <!-- Button Modal -->
+    <button type="button" class="btn btn-block mb-3 mt-5" data-bs-toggle="modal" data-bs-target="#modalSignIn">
+        {{current_city}} &nbsp;<i class="fa fa-arrow-down" aria-hidden="true"></i></button>
+    <!-- Modal Content -->
+    <div class="modal fade" id="modalSignIn" tabindex="-1" role="dialog" aria-hidden="true" 
+    style="position: absolute;top:0px;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-md-5" style='margin-top:0px;padding-top:0px;'>
+                    <div class="modal-dialog search_mod_dialog">
+                        <div class="modal-content search_mod_content" style='border:none;'>
+                            <div class="search_mod_body">
+                                <P>Select Delivery Location</P>
+                                <form class="d-flex" autocomplete="off" id="search-form" method="post">
+                                    {% csrf_token %}
+                                    <input type="text" class="form-control" placeholder="Search for place or city"
+                                        id="search-input">
+                                    <span><i class="fa fa-search" aria-hidden="true"></i></span>
+                                </form>
+                                <h2 type='button' onclick="getLocation()" data-bs-dismiss="modal" aria-label="Close">
+                                     Detect current location &nbsp;<span><img src="/media/icons/location.png" style="height: 15px;"></span></h2>
+                                <div id="result-box"
+                                    style="text-decoration: none;padding: 0px;margin:0px;margin-top: 10px;"
+                                    class="not-visible2"> </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <p>Recent locations </p>
+                        <p class='recent_loc'>
+                            <span>
+                                <img src='https://fonts.gstatic.com/s/i/materialiconsoutlined/restore/v12/24px.svg'>
+                            </span>Nipani,Nipani,karnataka,india
+                        </p>
+                        <p class='recent_loc'> <span>
+                                <img src='https://fonts.gstatic.com/s/i/materialiconsoutlined/restore/v12/24px.svg'>
+                            </span>Jaysinpur,Jaysinpur,maharashtra,india</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    
+    </div>
+</div>
+</div>
+<!-- End of Modal Content -->
+<div class="col-lg-7 mb-lg-0 mb-4">
+
+</div>
+
+<br>
+
+<div class="main_start" id="StoreDiVFirst">
+    <p>Near Medical stores in your area</p>
+    <div class="m-2">
+        <div class="row" id='StoreList'>
+            {% for i in new_list %}
+            <div class="card mx-auto my-2 align-items-center">
+                <div class="img-box">
+                    <a href="/store-view/{{i.id}}/{{i.name}}/{{i.distance}}">
+                        <img src="https://th.bing.com/th/id/OIP.H-QL_6Ujz1l0gPSmdV4i8AHaE8?pid=ImgDet&rs=1"
+                            style="padding: 10px;max-width: 100%;height: 110px;"></a>
+                </div>
+                <h4> {{i.name}}</h4>
+                <p class='text-dark' id="item_address" style="font-size: 11px;font-weight: 700;">
+                    {{i.address}}</p>
+                <div class="distance_km" style="text-align: center;">
+                    <h4>{{i.distance}} Km </h4>
+                </div>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+<hr class="line1">
+{% include "includes/footer.html" %}
+</div>
+
+
+
+{% endblock content %}
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    //Loading gif
+    $(window).load(function() {
+        $(".loader").fadeOut("slow")
+    });
+
+    var x = document.getElementById("demo");
+    function getLocation() {
+        $(".loader").fadeIn("slow")
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+    function showPosition(position) {
+    // Show Medical Stores with current location
+    const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    var lat =  position.coords.latitude;
+    var lon = position.coords.longitude;
+    console.log(lat,lon)
+    $.ajax({
+        type: 'POST',
+        url: '/detect-users-location',
+        data: {
+            'lon':JSON.stringify(lon),
+            'lat':JSON.stringify(lat),
+            'csrfmiddlewaretoken': csrf,
+        },
+        dataType: 'json',
+        success: function (response) {
+            $(".loader").fadeOut("slow")
+            mydata = response.context;
+            for (var key in mydata){
+                
+                var temp = `<div class='card mx-auto my-2 align-items-center'>
+                <div class='img-box'>
+                    <a href='/store-view/${mydata[key].id}/${mydata[key].name}/{${mydata[key].distance}''>
+                        <img src='https://th.bing.com/th/id/OIP.H-QL_6Ujz1l0gPSmdV4i8AHaE8?pid=ImgDet&rs=1'
+                            style='padding: 10px;max-width: 100%;height: 110px;''></a>
+                </div>
+                <h4>${mydata[key].name}</h4>
+                <p class='text-dark' id="item_address" style='font-size: 11px;font-weight: 700;''>
+                    ${mydata[key].address}</p>
+                <div class='distance_km' style='text-align:center;'>
+                    <h4>${mydata[key].distance} Km </h4>
+                </div>
+            </div>`
+            $("#StoreList").append(temp);
+            }           
+        }
+    });}
+    </script>
+<script>
+    const url = window.location.href;
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+    const resultBox = document.getElementById('result-box');
+    const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+    const sendSearchData = (game) => {
+        $.ajax({
+            type: 'POST',
+            url: '/search-location/',
+            data: {
+                'csrfmiddlewaretoken': csrf,
+                'game': game,
+            },
+            success: (res) => {
+                const data = res.data
+                console.log(data)
+                if (Array.isArray(data)) {
+                    resultBox.innerHTML = ""
+                    data.forEach(game => {
+                        resultBox.innerHTML +=
+                        `<div class='container result_card1'>
+                        <form method='post'>
+                        {%csrf_token%}
+                        <button name='input_city_name',id='input_city_name', value='${game.name}'>  
+                        <h5 id='address'><span>${game.name},${game.state}</span></h5></button></form></div>`
+                    })
+                }
+                else {
+                    if (searchInput.value.length > 0) {
+                        resultBox.innerHTML = ` <b>${data}</b>`
+                    }
+                    else {
+                        resultBox.classList.add('not-visible2')
+                    }
+                }
+            },
+            error: (err) => {
+            }
+        })
+    }
+    searchInput.addEventListener('keyup', e => {
+        if (resultBox.classList.contains('not-visible2')) {
+            resultBox.classList.remove('not-visible2')
+        }
+        sendSearchData(e.target.value)
+    });
+</script>
+{% endblock javascripts %}

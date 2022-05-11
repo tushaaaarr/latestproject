@@ -1,0 +1,251 @@
+/* Card Popcart section */
+    #clearCart,#checkout{
+  background-color:#FF6347	;
+  color:#fff;
+  margin:5px;
+  font-size: 12px;
+}
+    /*Detailed notification bar */
+    .SignUp_buttons li{
+      background-color: #FF6347;
+      color:#fff;
+    }
+    .notification_bar_details {
+      height: 200px;
+      border: solid #ccc;
+      cursor: pointer;
+      height: 100%;
+      z-index: 10000;
+      display: inline-block;
+      background-color: #f1f1f1;
+
+      /*box-shadow: 10px 10px 60px #555;*/
+      height: auto;
+      width: auto;
+      min-height: 100px;
+      border-radius: 8px;
+      padding: 15px 5%;
+      margin-right: 25%;
+      margin-left: 25%;
+      border-color: #ccc;
+
+    }
+
+    /*Notificaion-Top*/
+    .notification_bar {
+      height: 200px;
+      background: rgba(0, 0, 0, .4);
+      cursor: pointer;
+      height: 100%;
+      z-index: 10000;
+      display: inline-block;
+      background-color: #eee;
+      box-shadow: 10px 10px 60px #555;
+      height: auto;
+      max-width: 551px;
+      min-height: 100px;
+      border-radius: 8px;
+      padding: 15px 5%;
+      margin-right: 25%;
+      margin-left: 10%;
+      margin-top: 35%;
+      position: absolute;
+      text-align: center;
+      width: 80%;
+    }
+
+    .result-card {
+      background-color: #fff;
+      border: solid #A9A9A9;
+      border-width: 0.5px;
+      position: absolute;
+      text-align: center;
+      z-index: 10000;
+      height: 200px;
+
+      height: auto;
+      max-width: 100%;
+      min-height: 100%;
+      margin-left: 15%;
+      margin-right: 25%;
+      border-radius: 7px;
+      padding: 30px 30px;
+      margin-top: 0px;
+    }
+
+    .result-card h5 {
+
+      font-size: 13px;
+      font-weight: bolder;
+      color: black;
+      margin-top: 2px;
+      padding-left: 15px;
+      padding-top: 5px;
+      text-decoration: none;
+
+    }
+
+    .result-card span {
+      font-size: 11px;
+      color: black;
+      font-size: 300;
+      margin-top: 3px;
+      padding-left: 15px;
+
+    }
+
+    .not-visible {
+      display: none;
+    }
+
+    .result_card {
+      width: 10rem;
+      height: 3rem;
+      border: solid #DCDCDC;
+      border-width: 1px;
+      border-style: outset;
+
+    }
+
+    .deal_of_day {
+
+      border: 1px;
+      background-color: #D2691E;
+      height: 22px;
+      width: 50px;
+
+    }
+
+    .deal_of_day h4 {
+      margin: 2px;
+      color: #fff;
+      /*margin-top: 5px;*/
+    }
+
+    /*Upload Prescription */
+
+    #upload_button {
+      color: #fff;
+      margin-top: 0px;
+      border-radius: px;
+      font-size: 13px;
+      padding: 10px;
+      width: 120px;
+      background-color: #FF8C00;
+    }
+
+    #upload_button:hover {
+      background-color: #eee;
+      color: #FF8C00;
+      border: solid #FF8C00;
+      border-width: 0.5px;
+    }
+
+    #location_bar {
+      border: solid #DCDCDC border-width: 1px;
+      margin-top: 10px;
+      height: 40px;
+
+        {
+        % comment %
+      }
+
+      box-shadow:2px 2px 10px rgba(47, 47, 47, 0.80);
+
+        {
+        % endcomment %
+      }
+
+      vertical-align: middle;
+
+        {
+        % comment %
+      }
+
+      position: relative;
+
+        {
+        % endcomment %
+      }
+
+      width:290px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 14px;
+    }
+
+    #location_bar img {
+      height: 12px;
+      width: 12px;
+      margin-top: 10px;
+      margin-left: 20px;
+      margin-right: 5px;
+    }
+
+    #location_bar input {
+      margin-top: 5px;
+      border: none;
+      font-size: 11px;
+      /*width: 200px;*/
+    }
+
+
+    .image_upload_block {
+      background-color: #F5F5F5;
+      border: solid #DCDCDC;
+      border-width: 1px;
+      height: auto;
+      height: 200px;
+      vertical-align: middle;
+      width: 50%;
+      margin-left: 25%;
+      border-radius: 8px;
+      text-align: center;
+      align-items: center;
+      padding: 10px;
+    }
+
+
+
+    .image_upload_block p {
+      color: #000080;
+      font-weight: 500;
+      padding-top: 20px;
+      font-size: 12px;
+
+    }
+
+    #heading {
+      color: #000080;
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 14px;
+
+    }
+
+    .image_upload_block span {
+      font-weight: bold;
+      font-size: 12px;
+      color: #FFA500;
+
+    }
+
+    .btn-tertiary {
+      color: #555;
+      padding: 10px;
+      line-height: 40px;
+      width: 200px;
+      height: 60px;
+      margin: auto;
+      border-radius: 10px;
+      /*display: block;*/
+      border: 2px solid #FFA500;
+
+      &:hover,
+      &:focus {
+        color: lighten(#555, 20%);
+        border-color: lighten(#555, 20%);
+      }
+    }
+
+

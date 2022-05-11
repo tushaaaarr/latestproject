@@ -1,0 +1,616 @@
+{% extends 'app-view/deliver/layouts/base.html' %}
+{% block title %} Delivery ID - {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    html {
+        background-color: #eee;
+    }
+    #pickupotp {
+        border-width: 0.3px !important;
+        width: 100%;
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        outline: none;
+        box-sizing: border-box;
+        border: 2px solid #DCDCDC;
+        text-align: center;
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+    #proceed,
+    #cancel {
+        padding: 7px;
+    }
+
+    #proceed {
+        border: none;
+        background: #fff;
+        outline: none;
+        font-weight: 500;
+    }
+    #proceed:hover {
+        border: none;
+        background: #DCDCDC;
+    }
+
+    #cancel {
+        border: none;
+        background: #fff;
+        outline: none;
+        font-weight: 500;
+    }
+
+    #cancel:hover {
+        border: none;
+        background: #DCDCDC;
+    }
+
+    /* Tracker */
+
+    .track1 {
+        position: absolute;
+        background: #fff;
+        height: 36px;
+        display: flex;
+        width: 3px;
+        margin-top: 3px;
+        margin-left: 8px;
+        margin-bottom: 3px;
+    }
+
+    .track .step {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 25%;
+        margin-top: -18px;
+        text-align: center;
+        position: relative
+    }
+
+    .track .step.active:before {
+
+        background: #32CD32;
+    }
+
+    .track1 .step::before {
+        height: 7px;
+        position: absolute;
+        content: "";
+        width: 100%;
+        left: 0;
+        top: 18px
+    }
+
+    .track .step.active .icon {
+        background: #4169E1;
+        color: #fff
+    }
+
+    .icon i {
+        font-size: 9px;
+        margin-top: 0px;
+        padding-bottom: 5px;
+    }
+
+    .track .icon {
+        display: inline-block;
+        width: 18px;
+        height: 19px;
+        line-height: 15px;
+        position: relative;
+        border-radius: 100%;
+        background: #ddd;
+        background: #fff;
+        color: #fff;
+
+    }
+
+    .track .step.active .text {
+        font-weight: 400;
+        color: #000
+    }
+
+    .track .text {
+        display: block;
+        font-size: 11px;
+    }
+
+    .box {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 5px;
+        height: 200px;
+        background-color: #E6E6FA;
+        margin: 8px;
+    }
+
+    .text {
+        position: absolute;
+        left: 90px;
+        top: 56px;
+        font-weight: bolder;
+        color: #4169E1;
+        display: flex;
+    }
+
+    .text2 {
+        position: absolute;
+        left: 90px;
+        top: 115px;
+        display: flex;
+        font-size: 12px;
+        font-weight: bolder;
+        color: #4169E1;
+    }
+
+    .text3 {
+        position: absolute;
+        left: 75px;
+        top: 200px;
+        display: flex;
+        font-size: 11px;
+        font-weight: bolder;
+        color: #4169E1;
+    }
+
+    #clickphoto {
+        margin-left: 90px;
+        background-color: #000080;
+        border: solid #fff;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bolder;
+        border-width: 1px;
+        padding: 5px;
+        width: 100px;
+        margin-top: 2px;
+    }
+
+    #clickphoto:hover {
+        color: #000080;
+        border: 1px solid #000080;
+        background-color: #fff;
+    }
+
+    #clickphoto:focus {
+        outline: none;
+    }
+
+    /* Modal */
+    .modal-body span {
+        margin: 7px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+    }
+
+    .modal[open] {
+        display: flex;
+    }
+
+    #demo-modal h3 {
+        font-size: 15px;
+    }
+
+    .model-inner {
+        background-color: white;
+        border-radius: 0.5em;
+        max-width: 600px;
+        padding: 2em;
+        margin: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid black;
+    }
+
+    #modal-overlay {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        background-color: black;
+        opacity: 0.5;
+    }
+
+    .parsalimage_div {
+        text-align: center;
+    }
+
+    .parsalimage_div img {
+        height: 20px;
+        position: absolute;
+        margin-right: 25px;
+        margin-top: 25px;
+        margin-left: 8px;
+    }
+
+    #modal-dialog-parselphoto {
+        margin-top: 30%;
+        width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 500px;
+    }
+
+    #button {
+        display: inline-block;
+        background-color: indigo;
+        color: white;
+        padding: 0.5rem;
+        font-family: sans-serif;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        width: 80%;
+    }
+
+    #button span {
+        font-size: 13px;
+        padding: 5px;
+    }
+
+    #getdirection {
+        color: #000080;
+        border: 1px solid #000080;
+    }
+
+    #getdirection:hover {
+        background-color: #000080;
+        border: 1px solid #000080;
+        color: #fff;
+    }
+
+    .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+{% include "includes/footer.html" %}
+<!-- Loader Gif -->
+<div class="loader">
+    <img src="https://www.stamforduniversity.edu.bd/asset/includes/loader/processing.gif" style="width: 100px;">
+</div>
+
+<div class='main_div p-1'>
+    {%if not CurrrentOrder.is_reached_store%}
+    <div class="border m-1">
+        <div class="row">
+            <div class="numbers mx-3 mt-3 p-3">
+                <p class="font-weight-bolder mb-0">{{store_data.name}}</p>
+                <h5 class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">
+                    {{store_data.address}}</h5>
+                <p class="mb-0">Order ID:&nbsp;Ftz0034</p>
+
+                <button onclick="GetDirectionStore()" class="btn btn-outline mt-1" id="getdirection">Get
+                    Direction&nbsp;&nbsp;
+                    <i class="fa fa-location-arrow ml-1" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div class='row'>
+            <div class="col-4 mx-3">
+                <button class='btn btn-outline btn-primary call_btn'> <i class="fa fa-phone"></i> Call </button>
+            </div>
+            <div class="col-6">
+                <button class='btn btn-outline btn-primary message_btn'> <i class="gg-mail"></i> Didn't recive OTP
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="text-center p-1">
+        <button id='acceptbtn' name='accept_btn' data-bs-toggle="modal" data-bs-target="#PickUpOtp"
+            class="btn btn-success w-100 ">Reached Pickup
+            location</button>
+    </div>
+    <!-- SignUp Modal -->
+    <div class="modal fade" id="PickUpOtp" tabindex="-1" aria-labelledby="PickUpOtp" aria-hidden="true">
+        <div class="modal-dialog" style='margin-top:30%;width:300px;margin-left:auto;margin-right:auto;height:500px;'>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="PickUpOtpTitle">Pickup OTP</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Please enter the Pickup OTP to confirm reaching pickup</p>
+                    <form method='post'>
+                        {% csrf_token %}
+                        <input type='hidden' value='{{myid}}' name='myid'>
+                        <input id="pickupotp" class="no-outline" type='number' name='customer_otp'>
+                        <div class='row ml-2'>
+                            <div class="col-3">
+                                <button id='cancel' data-dismiss="modal" aria-label="Close">
+                                    Cancel</button>
+                            </div>
+                            <div class="col-3">
+                                <button id='proceed'>Proceed</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endif%}
+{%if not CurrrentOrder.order_picked and CurrrentOrder.is_reached_store %}
+<div class='box'>
+    <br>
+    <br>
+    <div class="track">
+        <div class="step active" id='order_completed'>
+            <span class="icon">
+                <i class="fa fa-check"></i>
+                <div class='track1'>
+                </div>
+            </span>
+        </div><span class='text'>Confirmed OTP</span>
+        <br>
+        <br>
+        <div class="step {{is_parsel_uploaded}}" id='order_completed'>
+            <span class="icon"><i class="fa fa-check"></i>
+                <div class='track1'>
+                </div>
+            </span>
+        </div>
+        <span class='text2'>Order parsel photo varified</span>
+        {%if not CurrrentOrder.is_parsel_uploaded%}
+        <button type='submit' id='clickphoto' data-bs-toggle="modal" data-bs-target="#ClickPhotoModal">
+            <i class='fa fa-camera'> </i> &nbsp;Click Photo</button>
+        {%endif%}
+        <br>
+        <br>
+    </div>
+</div>
+<div class="modal fade" id="ClickPhotoModal" tabindex="-1" aria-labelledby="ClickPhotoModal" aria-hidden="true">
+    <div class="modal-dialog" id="modal-dialog-parselphoto">
+        <div class="modal-content p-3">
+            <p class="text-uppercase text-sm-left font-weight-bold text-dark text-center">Upload parsel photo here</p>
+            <form method="POST" name="inputForm" enctype='multipart/form-data'>
+                {% csrf_token %}
+                <div class='parsalimage_div'>
+                    <input type="file" capture="camera" name='parsel_image' id="parsel_image" hidden />
+                    <label for="parsel_image" id='button'>
+                        <span> <i class='fa fa-camera'>
+                            </i>&nbsp;Open Camera</span></label>
+                    <div class='text-center mt-1'>
+                        <button type="submit" id="submit" class="btn btn-primary w-100">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+
+    </div>
+</div>
+<div class="numbers mx-3 mt-3 p-3">
+    <p class="font-weight-bolder mb-0">{{CustomerrName}}</p>
+    <h5 class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">
+        {{CurrrentOrder.address}}</h5>
+    <p class="mb-0">Order ID:&nbsp;Ftz0034</p>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button class="btn btn-outline btn-primary w-100" id='acceptbtn' name='order_picked' value="reached">Order Picked
+    </button>
+</form>
+{%endif%}
+
+{%if not CurrrentOrder.reached_location_status and CurrrentOrder.order_picked%}
+<div class="numbers mx-3 mt-3 p-3 border">
+    <p class="font-weight-bolder mb-0">{{CustomerrName}}</p>
+    <h5 class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">{{CurrrentOrder.address}}</h5>
+    <div class='orderinfo_box mt-1'>
+        <p class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">Order ID: 12220</p>
+        {%if CurrrentOrder.payment_completed%}
+        {%else%}
+        <p class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">Amount to be paid:
+            Rs.{{CurrrentOrder.total_amount}}</p>
+        {%endif%}
+        <button onclick="GetDirectionCustomer()" class="btn btn-outline mt-2" id="getdirection">Get
+            Direction&nbsp;&nbsp;
+        <i class="fa fa-location-arrow ml-1" aria-hidden="true"></i></button>
+    </div>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="text-center p-1 mt-3">
+        <button class="btn btn-primary w-100" name='reached_customer_location' value="reached">
+            <span>Reached Drop Location<span>
+        </button>
+    </div>
+</form>
+{%endif%}
+{%if CurrrentOrder.reached_location_status %}
+<div class="numbers mx-3 mt-3 p-3 border">
+    <p class="font-weight-bolder mb-0">{{CustomerrName}}</p>
+    <h5 class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">{{CurrrentOrder.address}}</h5>
+    <div class='orderinfo_box mt-1'>
+        <p class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">Order ID: 12220</p>
+        {%if CurrrentOrder.payment_completed%}
+        {%else%}
+        <p class="mb-0 text-sm mb-0 text-capitalize font-weight-bold">Amount to be paid:
+            Rs.{{CurrrentOrder.total_amount}}</p>
+        {%endif%}
+        <div class='row mt-3'>
+            <div class="col-4">
+                <button class='btn btn-outline btn-primary call_btn'>Call </button>
+            </div>
+            <div class="col-6">
+                <button class='btn btn-outline btn-primary message_btn' data-bs-toggle="modal"
+                    data-bs-target="#SendMessage">Send Text
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="text-center p-1 mt-3">
+        <button class="btn btn-outline btn-primary w-100" id='acceptbtn' name='collected_cash' value="reached">Given
+            items to Customer</button>
+    </div>
+</form>
+<!-- SignUp Modal -->
+<div class="modal fade" id="SendMessage" tabindex="-1" aria-labelledby="SendMessage" aria-hidden="true">
+    <div class="modal-dialog" style='margin-top:30%;width:300px;margin-left:auto;margin-right:auto;height:500px;'>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="SendMessageTitle">Send Message</h5>
+            </div>
+            <div class="modal-body">
+                <p>Sending message to customer</p>
+                <form method='post'>
+                    {% csrf_token %}
+                    <input type='hidden' value='{{myid}}' name='myid'>
+                    <input id="pickupotp" class="no-outline" type='text'
+                        value='I have reached the door. Please collect the order.'>
+                    <div class='row' style='margin-left:50%;margin-top:5px;'>
+                        <button type='submit' id='proceed' data-dismiss="modal" aria-label="Close">
+                            Cancel</span>
+                        </button>
+                        <button id='proceed'>Send </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {%endif%}
+</div>
+{% endblock content %}
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    //Catch 4 Digit OTP
+    try {
+        var otp_input = document.getElementById('pickupotp').value;
+        $('#pickupotp').on('keyup', function () {
+            var my_value = $(this).val();
+            if (my_value.length == 4) {
+                document.getElementById('proceed').style.fontWeight = "700";
+            }
+            else {
+                document.getElementById('proceed').style.fontWeight = "500";
+            }
+        });
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+    // Rename after click photo
+    try {
+        document.getElementById("parsel_image").onchange = function () {
+            var html = `<span><i class='fa fa-check'></i>&nbsp; Photo Captured </span>`;
+            document.getElementById('button').innerHTML = html;
+        };
+    }
+    catch (e) {
+        console.log(e.message);
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    //Loading gif
+    $(window).load(function () {
+        $(".loader").fadeOut("slow")
+    });
+    //Track Directions for Store Location
+    var allowGeoRecall = true;
+    var countLocationAttempts = 0;
+    function GetDirectionStore() {
+        $(".loader").fadeIn("slow")
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        };
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showStorePosition, positionError, options);
+        } else {
+            alert("Geolocation is not supportted by this device .");
+            $(".loader").fadeOut("slow");
+        }
+    }
+    function positionError() {
+        alert('Please allow permissions for location (GPS) .')
+        if (allowGeoRecall && countLocationAttempts < 5) {
+            countLocationAttempts += 1;
+        }
+    }
+    function showStorePosition(position) {
+        $(".loader").fadeOut("slow")
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude
+        var store_coord = JSON.parse("{{store_details|escapejs}}");
+        var url = "https://www.google.com/maps/dir/" + lat + "," + lon + "/" + store_coord.lat + "," + store_coord.lon + ""
+        window.open(url, '_blank');
+    }
+
+    //Trac Directions for Customers location
+    var allowGeoRecall = true;
+    var countLocationAttempts = 0;
+    function GetDirectionCustomer() {
+        $(".loader").fadeIn("slow")
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        };
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showCustomerPosition, positionError, options);
+        } else {
+            alert("Geolocation is not supportted by this device .");
+            $(".loader").fadeOut("slow");
+        }
+    }
+    function positionError() {
+        alert('Please allow permissions for location (GPS) .')
+        if (allowGeoRecall && countLocationAttempts < 5) {
+            countLocationAttempts += 1;
+        }
+    }
+    function showCustomerPosition(position) {
+        $(".loader").fadeOut("slow")
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude
+        var customer_coord = JSON.parse("{{customer_details|escapejs}}");
+        var url = "https://www.google.com/maps/dir/" + lat + "," + lon + "/" + customer_coord.lat + "," + customer_coord.lon + ""
+        window.open(url, '_blank');
+    }
+</script>
+<!-- Google Api search places -->
+<script async></script>
+
+{% endblock javascripts %}

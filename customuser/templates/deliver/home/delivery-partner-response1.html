@@ -1,0 +1,1170 @@
+del
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Modal with Blur Background Example</title>
+    <meta name="author" content="Codeconvey" />
+
+    <!-- Bootstrap CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://css.gg/shopping-bag.css' rel='stylesheet'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    .main_div {
+        margin: 5px;
+    }
+
+    .map_image {
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+    }
+
+    .sec_box {
+        box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        margin-top: 1px;
+        padding: 10px;
+    }
+
+    .map_image img {
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .map_image {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .navbar {
+        background-color: #000080;
+        padding: 11px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .navbar span {
+        margin-left: 30px;
+        font-weight: bolder;
+        color: #fff;
+        font-size: 14px;
+    }
+
+    #chemist_name {
+        font-weight: 700;
+        padding: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-size: 14px;
+    }
+
+    #chemist_address {
+        font-weight: 500;
+
+        margin-top: 0px;
+        padding: 0px;
+        font-size: 13px;
+    }
+
+    #orderid {
+        font-weight: 700;
+
+        margin-top: 0px;
+        margin-bottom: 0px;
+        padding: 0px;
+        font-size: 12px;
+    }
+
+    #amountpaid {
+        font-weight: 700;
+        margin-top: 0px;
+        padding: 0px;
+        font-size: 12px;
+    }
+
+    #navigator {
+        height: 35px;
+        position: absolute;
+        display: flex;
+        top: 210px;
+        right: 20px;
+    }
+
+    #acceptbtn {
+        width: 100%;
+        background-color: #000080;
+        color: #fff;
+        margin-top: 20px;
+        padding: 7px;
+        font-size: 13px;
+        border: none;
+        margin-bottom: 1.5em;
+        cursor: pointer;
+        height: 40px;
+        font-weight: 700;
+    }
+
+    #acceptbtn:hover {
+        color: #000080;
+        background-color: #fff;
+        border: solid #000080;
+        border-width: 0.5px;
+        border-radius: 20px;
+    }
+
+    #acceptbtn:focus {
+        outline: none;
+        border: none;
+    }
+
+    .call_btn {
+        color: #fff;
+        background-color: #000080;
+        margin-left: 10px;
+        font-size: 12px;
+        border: none;
+        padding: 7px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .message_btn {
+        color: #fff;
+        background-color: #000080;
+        margin-left: 10px;
+        font-size: 12px;
+        border: none;
+        padding: 9px;
+        padding-left: 40px;
+        padding-right: 20px;
+        width: 200px;
+    }
+
+    .message_btn i {
+        margin-top: 2px;
+        position: absolute;
+    }
+
+    .message_btn:hover {
+        background-color: #fff;
+        color: #000080;
+        border: 1px solid #000080;
+    }
+
+    .call_btn:hover {
+        background-color: #fff;
+        color: #000080;
+        border: 1px solid #000080;
+    }
+
+    #PickUpOtpTitle {
+        font-size: 14px;
+    }
+
+    .no-outline {
+        outline: none;
+
+        width: 100%;
+    }
+
+    .modal-body span {
+        margin: 7px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    #pickupotp {
+        border-width: 0.3px !important;
+        width: 100%;
+        color: rgb(38, 50, 56);
+        font-weight: 700;
+        font-size: 14px;
+        letter-spacing: 1px;
+        background: rgba(136, 126, 126, 0.04);
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        outline: none;
+        box-sizing: border-box;
+        border: 2px solid #DCDCDC;
+        text-align: center;
+        font-family: 'Ubuntu', sans-serif;
+
+
+    }
+
+    #proceed,
+    #cancel {
+        padding: 7px;
+    }
+
+    #proceed {
+        border: none;
+        background: #fff;
+        outline: none;
+        font-weight: 500;
+    }
+
+    #proceed:hover {
+        border: none;
+        background: #DCDCDC;
+    }
+
+    #cancel {
+        border: none;
+        background: #fff;
+        outline: none;
+        font-weight: 500;
+    }
+
+    #cancel:hover {
+        border: none;
+        background: #DCDCDC;
+    }
+
+    .second_nav img {
+        height: 15px;
+        margin-left: 7px;
+    }
+
+    .second_nav {
+        background-color: #000080;
+        padding: 7px;
+        padding-left: 0px;
+        padding-right: 0px;
+        box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .second_nav span {
+        font-weight: 500;
+        margin-left: 7px;
+    }
+
+    #picked_time {
+        font-weight: 500;
+        font-size: 17px;
+        color: blue;
+        margin-left: 10px;
+        margin-top: 5px;
+    }
+
+    .track1 {
+        position: absolute;
+        background: #fff;
+        height: 36px;
+        display: flex;
+        width: 3px;
+        margin-top: 3px;
+        margin-left: 8px;
+        margin-bottom: 3px;
+    }
+
+    .track .step {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+        width: 25%;
+        margin-top: -18px;
+        text-align: center;
+        position: relative
+    }
+
+    .track .step.active:before {
+
+        background: #32CD32;
+    }
+
+    .track1 .step::before {
+        height: 7px;
+        position: absolute;
+        content: "";
+        width: 100%;
+        left: 0;
+        top: 18px
+    }
+
+    .track .step.active .icon {
+        background: #4169E1;
+        color: #fff
+    }
+
+    .icon i {
+        font-size: 9px;
+        margin-top: 0px;
+        padding-bottom: 5px;
+    }
+
+    .track .icon {
+        display: inline-block;
+        width: 18px;
+        height: 19px;
+        line-height: 15px;
+        position: relative;
+        border-radius: 100%;
+        background: #ddd;
+        background: #fff;
+        color: #fff;
+
+    }
+
+    .track .step.active .text {
+        font-weight: 400;
+        color: #000
+    }
+
+    .track .text {
+        display: block;
+        font-size: 11px;
+    }
+
+    .box {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 5px;
+        height: 200px;
+        background-color: #E6E6FA;
+        margin: 8px;
+    }
+
+    .text {
+        position: absolute;
+        left: 200px;
+        top: 87px;
+        font-weight: bolder;
+        color: #4169E1;
+        display: flex;
+    }
+
+    .text2 {
+        position: absolute;
+        left: 200px;
+        top: 140px;
+        display: flex;
+        font-size: 12px;
+        font-weight: bolder;
+        color: #4169E1;
+    }
+
+    .text3 {
+        position: absolute;
+        left: 75px;
+        top: 200px;
+        display: flex;
+        font-size: 11px;
+        font-weight: bolder;
+        color: #4169E1;
+    }
+
+    #clickphoto {
+        margin-left: 205px;
+        background-color: #000080;
+        border: solid #fff;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bolder;
+        border-width: 1px;
+        padding: 5px;
+        width: 100px;
+        margin-top: 2px;
+    }
+
+    #clickphoto:hover {
+        color: #000080;
+        border: 1px solid #000080;
+        background-color: #fff;
+    }
+
+    #clickphoto:focus {
+        outline: none;
+    }
+
+    < !--modal-->body {
+        font-family: sans-serif;
+    }
+
+    .modal {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+    }
+
+    .modal[open] {
+        display: flex;
+    }
+
+    #demo-modal h3 {
+        font-size: 15px;
+    }
+
+    .model-inner {
+        background-color: white;
+        border-radius: 0.5em;
+        max-width: 600px;
+        padding: 2em;
+        margin: auto;
+    }
+
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 2px solid black;
+    }
+
+    #modal-overlay {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 0;
+        background-color: black;
+        opacity: 0.5;
+    }
+
+    #sent_bill_image {
+        background-color: #00FF00;
+        color: #fff;
+        border: solid #DCDCDC;
+        border-width: 1px;
+        padding: 5px;
+        width: 100%;
+        margin-top: 5px;
+        font-size: 13px;
+        font-weight: bolder;
+        height: 40px;
+    }
+
+    #button {
+        display: inline-block;
+        background-color: indigo;
+        color: white;
+        padding: 0.5rem;
+        font-family: sans-serif;
+        border-radius: 0.3rem;
+        cursor: pointer;
+        margin-top: 1rem;
+        width: 80%;
+    }
+
+    #button span {
+        font-size: 13px;
+        padding: 5px;
+    }
+
+    .Input {
+        text-align: center;
+    }
+
+    #submit {
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #000080;
+        color: #ffffff;
+        margin: 5px;
+        font-size: 12px;
+        width: 100%;
+        margin-top: 10px;
+        padding: 5px;
+        border: none;
+    }
+
+    #submit:hover {
+        color: #000080;
+        background-color: #ffffff;
+        border: 1px solid #000080;
+    }
+
+    #submit:focus {
+        outline: none;
+    }
+
+    .parsalimage_div {
+        text-align: center;
+    }
+
+    .parsalimage_div img {
+        height: 20px;
+        position: absolute;
+        margin-right: 25px;
+        margin-top: 25px;
+        margin-left: 8px;
+    }
+
+    .customeradd_div h5 {
+        font-size: 14px;
+    }
+
+    .customeradd_div h4 {
+        font-size: 14px !important;
+        color: gray;
+    }
+
+    .customeradd_div {
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+        padding: 12px;
+        margin: 5px;
+    }
+
+    #acceptbtn {
+        width: 100%;
+        background-color: #000080;
+        color: #fff;
+        margin-top: 20px;
+        padding: 7px;
+        font-size: 13px;
+        border: none;
+        border-radius: 20px;
+        margin-bottom: 1.5em;
+        cursor: pointer;
+        height: 40px;
+        font-weight: 700;
+    }
+
+    #acceptbtn:hover {
+        color: #000080;
+        background-color: #fff;
+        border: solid #000080;
+        border-width: 0.5px;
+
+    }
+
+    .customeradd_div img {
+        height: 15px;
+        margin-right: 7px;
+    }
+
+    .menu_bar {
+        display: block;
+    }
+
+    .menu_bar {
+        position: fixed;
+        bottom: 1px;
+        z-index: 2027;
+        display: flex;
+        background-color: #fff;
+        width: 100%;
+        border: solid #DCDCDC display: inline-block;
+
+    }
+
+    .menu_bar span {
+        padding: 12px;
+        padding-left: 40px;
+        padding-right: 40px;
+        font-size: 18px;
+        font-weight: 900;
+        background: #fff;
+        weight: 100%;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+
+    }
+
+    .menu_bar i {
+        font-size: 25px;
+    }
+
+    .menu_bar span:hover {
+        color: #000080;
+    }
+
+    #myorder img {
+        height: 28px;
+    }
+
+    .gg-shopping-bag {
+        transform: scale(var(--ggs, 1));
+    }
+
+    .gg-shopping-bag,
+    .gg-shopping-bag::after {
+        box-sizing: border-box;
+        position: relative;
+        display: block;
+        width: 25px;
+        height: 25px;
+        border: 2px solid;
+        border-radius: 3px;
+        color: #fff;
+
+        background: {
+                {
+                bag_bg_clr
+            }
+        }
+    }
+
+    }
+
+    #myorder:hover {
+        color: #000080;
+    }
+
+    .gg-shopping-bag::after {
+        content: "";
+        position: absolute;
+        width: 10px;
+        height: 6px;
+        border-bottom-left-radius: 120px;
+        border-bottom-right-radius: 120px;
+        border-top: 0;
+        top: 2px;
+        left: 5px
+    }
+
+    .step.active {
+        color: #000080;
+    }
+
+    .gg-mail,
+    .gg-mail::after {
+        display: block;
+        box-sizing: border-box;
+        height: 14px;
+        border: 2px solid
+    }
+
+    .gg-mail {
+        overflow: hidden;
+        transform: scale(var(--ggs, 1));
+        position: relative;
+        width: 18px;
+        border-radius: 2px
+    }
+
+    .gg-mail::after {
+        content: "";
+        position: absolute;
+        border-radius: 3px;
+        width: 14px;
+        transform: rotate(-45deg);
+        bottom: 3px;
+        left: 0
+    }
+
+    #button:hover {
+        color: indigo;
+        background-color: white;
+        border: 1px solid indigo;
+    }
+
+
+
+    @media screen and (max-width: 990px) {
+        .text {
+            position: absolute;
+            left: 75px;
+            top: 87px;
+            font-weight: bolder;
+            color: #4169E1;
+            display: flex;
+        }
+
+        .text2 {
+            position: absolute;
+            left: 75px;
+            top: 138px;
+            display: flex;
+            font-size: 12px;
+            font-weight: bolder;
+            color: #4169E1;
+        }
+
+        #clickphoto {
+            margin-left: 79px;
+            background-color: #000080;
+            border: solid #fff;
+            color: #fff;
+            font-size: 12px;
+            font-weight: bolder;
+            border-width: 1px;
+            padding: 5px;
+            width: 100px;
+            margin-top: 2px;
+        }
+    }
+</style>
+
+<body>
+    {%if not CurrrentOrder.is_reached_store%}
+    <nav class='navbar'>
+        <span>Reach Pickup</span>
+    </nav>
+    <div class='main_div'>
+        <div class='map_image'>
+            <img src='https://images.indianexpress.com/2016/05/pune-759_google-maps.jpg'>
+        </div>
+        <img id='navigator' src='https://cdn-icons-png.flaticon.com/512/1673/1673213.png'>
+        <div class='sec_box'>
+            <div class='address_box'>
+                <p id='chemist_name'> Apollo medical store</p>
+                <p id='chemist_address' style='margin-bottom:0px;'>Ashok nagar,2nd lane ,pb road ,nipani</p>
+            </div>
+
+            <div class='orderinfo_box'>
+                <p id='orderid'>Order ID: 12220</p>
+            </div>
+            <br>
+            <div class='row pl-1'>
+                <span class='btn btn-outline call_btn'> <i class="fa fa-phone"></i> Call </span>
+                <span class='btn btn-outline message_btn'> <i class="gg-mail"></i> Didn't recive OTP </span>
+            </div>
+            <button id='acceptbtn' name='accept_btn' data-toggle="modal" data-target="#PickUpOtp">Reached Pickup
+                location</button>
+            <!-- SignUp Modal -->
+            <div class="modal fade" id="PickUpOtp" tabindex="-1" aria-labelledby="PickUpOtp" aria-hidden="true">
+                <div class="modal-dialog"
+                    style='margin-top:30%;width:300px;margin-left:auto;margin-right:auto;height:500px;'>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="PickUpOtpTitle">Pickup OTP</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Please enter the Pickup OTP to confirm reaching pickup</p>
+                            <form method='post'>
+                                {% csrf_token %}
+                                <input type='hidden' value='{{myid}}' name='myid'>
+                                <input id="pickupotp" class="no-outline" type='number' name='customer_otp'>
+                                <div class='row' style='margin-left:50%;margin-top:5px;'>
+                                    <button type='submit' id='cancel' data-dismiss="modal" aria-label="Close">
+                                        Cancel</button>
+                                    <button id='proceed'>Proceed</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {%endif%}
+        {%if not CurrrentOrder.order_picked and CurrrentOrder.is_reached_store %}
+        <nav class='second_nav'>
+            <span> <img src='https://cdn-icons-png.flaticon.com/512/32/32195.png'></span>
+            <span style='margin-left:0px;'>&nbsp;&nbsp;&nbsp;Reach Pickup</span>
+        </nav>
+        <div class='box'>
+            <br>
+            <br>
+            <div class="track">
+                <div class="step active" id='order_completed'>
+                    <span class="icon"><i class="fa fa-check"></i>
+                        <div class='track1'>
+                        </div>
+                    </span>
+                </div><span class='text'>Confirmed OTP</span>
+                <br>
+                <br>
+                <div class="step {{is_parsel_uploaded}}" id='order_completed'>
+                    <span class="icon"><i class="fa fa-check"></i>
+                        <div class='track1'>
+                        </div>
+                    </span>
+                </div><span class='text2'>Order parsel photo varified</span>
+                {%if not CurrrentOrder.is_parsel_uploaded%}
+                <button type='submit' id='clickphoto' class="modal-open" data-id="demo-modal">
+                    <i class='fa fa-camera'> </i> &nbsp;Click Photo</button>
+                {%endif%}
+                <br>
+                <br>
+
+            </div>
+            <div id="demo-modal" class="modal" role="dialog" tabindex="-1">
+                <div class="model-inner">
+                    <h3>Upload parsel photo here</h3>
+                    <form method="POST" name="inputForm" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                        <div class='parsalimage_div'>
+                            <input type="file" capture="camera" name='parsel_image' id="parsel_image" hidden />
+                            <label for="parsel_image" id='button'><span> <i class='fa fa-camera'> </i>
+                                    &nbsp;Open Camera</span></label>
+                            <div class='text-center'>
+                                <button type="submit" id="submit">Send</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+        <div class='customeradd_div'>
+            <h4>CUSTOMER ADDRESS </h4>
+            <h5>{{CustomerrName}}</h5>
+            <p>{{CurrrentOrder.address}}</p>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button class"btn btn-outline" id='acceptbtn' name='order_picked' value="reached">
+                <span>Order Picked<span>
+            </button>
+        </form>
+        {%endif%}
+        {%if not CurrrentOrder.reached_location_status and CurrrentOrder.order_picked%}
+        <nav class='navbar'>
+            <span>Reach Drop Location</span>
+        </nav>
+
+        <div class='map_image' style='margin:5px;'>
+            <img src='https://images.indianexpress.com/2016/05/pune-759_google-maps.jpg'>
+        </div>
+        <img id='navigator' src='https://cdn-icons-png.flaticon.com/512/1673/1673213.png'>
+
+        <div class='customeradd_div'>
+            <h4>CUSTOMER ADDRESS </h4>
+            <h5>{{CustomerrName}}</h5>
+            <p>{{CurrrentOrder.address}}</p>
+            <div class='row pl-1'>
+                <span class='btn btn-outline call_btn'> <i class="fa fa-phone"></i> Call </span>
+                <span class='btn btn-outline message_btn'> <i class="gg-mail"></i> Didn't recive OTP </span>
+            </div>
+            <div class='orderinfo_box mt-1'>
+                <p id='orderid' style='font-weight:500;font-size:14px;'>Order ID: 12220</p>
+                {%if CurrrentOrder.payment_completed%}
+                {%else%}
+                <p id='amountpaid' style='font-weight:500;font-size:14px;'>Amount to be paid:
+                    Rs.{{CurrrentOrder.total_amount}}</p>
+                {%endif%}
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-outline" id='acceptbtn' name='reached_customer_location' value="reached">
+                <span>Reached Drop Location<span>
+            </button>
+        </form>
+        {%endif%}
+        {%if CurrrentOrder.reached_location_status %}
+        <nav class='second_nav' style='background-color:#fff;'>
+            <span> <img src='https://cdn-icons-png.flaticon.com/512/32/32195.png'></span>
+            <span style='margin-left:0px;'>&nbsp;&nbsp;&nbsp;Deliver: FK23542091</span>
+        </nav>
+
+        <div class='customeradd_div'>
+            <h4>CUSTOMER ADDRESS </h4>
+            <h5>{{CustomerrName}}</h5>
+            <p>{{CurrrentOrder.address}}</p>
+            <div class='row pl-1'>
+                <span class='btn btn-outline call_btn'> <i class="fa fa-phone"></i> Call </span>
+                <span class='btn btn-outline message_btn' data-toggle="modal" data-target="#SendMessage"> <i
+                        class="gg-mail"></i> Send Message</span>
+            </div>
+            <div class='orderinfo_box mt-1'>
+                <p id='orderid' style='font-weight:500;font-size:14px;'>Order ID: 12220</p>
+                {%if CurrrentOrder.payment_completed%}
+                {%else%}
+                <p id='amountpaid' style='font-weight:500;font-size:14px;'>Amount to be paid:
+                    Rs.{{CurrrentOrder.total_amount}}</p>
+                {%endif%}
+            </div>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-outline" id='acceptbtn' name='collected_cash' value="reached">
+                <span>Given items to Customer <span>
+            </button>
+        </form>
+        <!-- SignUp Modal -->
+        <div class="modal fade" id="SendMessage" tabindex="-1" aria-labelledby="SendMessage" aria-hidden="true">
+            <div class="modal-dialog"
+                style='margin-top:30%;width:300px;margin-left:auto;margin-right:auto;height:500px;'>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="SendMessageTitle">Send Message</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Sending message to customer</p>
+                        <form method='post'>
+                            {% csrf_token %}
+                            <input type='hidden' value='{{myid}}' name='myid'>
+                            <input id="pickupotp" class="no-outline" type='text'
+                                value='I have reached the door. Please collect the order.'>
+                            <div class='row' style='margin-left:50%;margin-top:5px;'>
+                                <button type='submit' id='proceed' data-dismiss="modal" aria-label="Close">
+                                    Cancel</span>
+                                </button>
+                                <button id='proceed'>Send </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {%endif%}
+
+            <!-- Mobile view modal -->
+            <div id="" class="modal fade" data-backdrop="true">
+                <div class="modal-dialog  w-xl" style='z-index-1027;display:flex;position:absolute;'>
+                    <div class="modal-content h-100 no-radius">
+                        <div class="modal-header">
+                            <p class="close" data-dismiss="modal">&times;</p>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container modal_body">
+                                {%if request.user.is_authenticated %}
+                                <a href='/users/{{prof_fname}}-{{prof_lname}}/profile' style='text-decoration:none;'>
+                                    <p style="color:#FF6347">Welcome {{fname}} </p>
+                                    {%else%}
+                                    <p style="color:#FF6347">Welcome</p>
+                                </a>
+                                {%endif%}
+                                <hr>
+                                {% if app_user_type == 'customer' %}
+                                <a href="/users-notifications" style="text-decoration: none;">
+                                    {%elif app_user_type == 'store_owner' %}
+                                    <a href="/store-notifications" style="text-decoration: none;">
+                                        {%endif%}
+                                        <p class="main_notifications">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/3602/3602123.png"
+                                                style="height: 20px;">
+                                            <span style="margin:0px;background-color: red;">{{noti_len}}</span>
+                                        </p>
+                                        {%if app_user_type == 'deliver' %}
+                                    </a>
+                                    <a href="/get-delivery" style="text-decoration: none;">
+                                        <p
+                                            style="margin-left: 15px;background-color: #fff;color: red;border:solid red; border-color: red;border-radius: 12px;width: 100px;border-width: 0.5px;">
+                                            <span style="padding: 5px;font-size: 12px;">Requests
+                                                <span id='order_requests'>{{noti_len}}</span>
+                                        </p></span>
+                                        {%elif app_user_type == 'store_owner' %}
+                                    </a>
+                                    <a href="/store-notifications" style="text-decoration: none;">
+                                        <p
+                                            style="margin-left: 15px;background-color: #fff;color: red;border:solid red; border-color: red;border-radius: 12px;width: 100px;border-width: 0.5px;">
+                                            <span style="padding: 5px;font-size: 11px;">Orders
+                                                <span id='order_requests'>{{noti_len}}</span>
+                                        </p></span></span>
+                                        {%else%}
+                                    </a>
+                                    <a href="/myorders" style="text-decoration: none;">
+                                        <p
+                                            style="margin-left: 15px;background-color: #fff;color: red;border:solid red; border-color: red;border-radius: 12px;width: 100px;border-width: 0.5px;">
+                                            <span style="padding: 5px;font-size: 11px;">Orders
+                                                <span id='order_requests'>{{noti_len}}</span>
+                                        </p></span></span>
+                                        {%endif%}
+                                        </p>
+                                    </a>
+                                    <div class="container" style="">
+                                        {%if request.user.is_authenticated %}
+                                        <a href="/logout">
+                                            <button class='btn btn-outline SignUp_buttons2'> Logout</button></a>
+                                        {%else%}
+                                        <a href="/user-login">
+                                            <button class="nav-item btn btn-outline SignUp_buttons2" type="button"
+                                                data-toggle="modal" data-target="#loginModal">Login</li></button></a>
+                                        <button class="nav-item btn btn-outline SignUp_buttons2" type="button"
+                                            data-toggle="modal" data-target="#signupModal">SignUp</button>
+                                        {%endif%}
+                                        <hr class="line1">
+                                        <!-- Categories section for mobile view -->
+                                        <li type="button" class="collapsible">COVID Test & <span>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/32/32195.png"
+                                                    style="height: 12px;"></span>
+                                        </li>
+                                        <div class="content">
+                                            <li class="sub_list">Face Masks</li>
+                                            <li class="sub_list">Sanitizers & Handwash</li>
+                                            <li class="sub_list">Thermometer</li>
+                                        </div>
+
+                                        <li type="button" class="collapsible">Fitness & Supliment<span>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/32/32195.png"></span>
+                                        </li>
+                                        <div class="content">
+                                            <li class="sub_list">All Fitness & supliment</li>
+                                            <li class="sub_list">Vitamins & Supliment</li>
+                                            <li class="sub_list">Nutrition Drinks</li>
+                                            <li class="sub_list">Helth Food & Drinks</li>
+                                            <li class="sub_list">Protein Supliment</li>
+                                        </div>
+                                        <li type="button" class="collapsible">Personal care<span>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/32/32195.png"></span>
+                                        </li>
+                                        <div class="content">
+                                            <li class="sub_list">All Personal care</li>
+                                            <li class="sub_list">Skin Care</li>
+                                            <li class="sub_list">Hair Care</li>
+                                            <li class="sub_list">Men Care</li>
+                                            <li class="sub_list">Pet Care</li>
+                                            <li class="sub_list">Sexual Welness</li>
+                                        </div>
+                                        <li type="button" class="collapsible"> Baby care<span>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/32/32195.png"></span>
+                                        </li>
+                                        <div class="content">
+                                            <li class="sub_list">All Fitness & supliment</li>
+                                            <li class="sub_list">Vitamins & Supliment</li>
+                                            <li class="sub_list">Nutrition Drinks</li>
+                                            <li class="sub_list">Helth Food & Drinks</li>
+                                            <li class="sub_list">Protein Supliment</li>
+                                        </div>
+                                        <li type="button" class="collapsible">Health conditions<span>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/32/32195.png"></span>
+                                        </li>
+                                        <div class="content">
+                                            <li class="sub_list">All Health Conditions</li>
+                                            <li class="sub_list">Stomach Care</li>
+                                            <li class="sub_list">Heart Care</li>
+                                            <li class="sub_list">Pain Relief</li>
+                                            <li class="sub_list">Eye Care</li>
+                                            <li class="sub_list">Ear Care</li>
+                                            <li class="sub_list">Cold & Cough</li>
+                                            <li class="sub_list">Fever</li>
+                                        </div>
+
+                                        <li type="button" class="collapsible">Health conditions<span>
+                                                <img src="https://cdn-icons-png.flaticon.com/512/32/32195.png"></span>
+                                        </li>
+                                        <div class="content">
+                                            <li class="sub_list">All Fitness & supliment</li>
+                                            <li class="sub_list">Vitamins & Supliment</li>
+                                            <li class="sub_list">Nutrition Drinks</li>
+                                            <li class="sub_list">Helth Food & Drinks</li>
+                                            <li class="sub_list">Protein Supliment</li>
+                                        </div>
+
+                                        <hr class="line1">
+                                        <li>ContactUs </li>
+                                        <li>Need Help?</li>
+
+                                        <li>Need Help?</li>
+                                        <li>ContactUs </li>
+                                        <li>Need Help?</li>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://code.jquery.com/jquery-3.3.1.js"
+                integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+                integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+                crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+                integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+                crossorigin="anonymous"></script>
+            <script>
+
+                let modal;
+                document.addEventListener("click", (e) => {
+                    if (e.target.className === "modal-open") {
+                        modal = document.getElementById(e.target.dataset.id);
+                        openModal(modal);
+                    } else if (e.target.className === "modal-close") {
+                        closeModal(modal);
+                    } else {
+                        return;
+                    }
+                });
+
+                const openModal = (modal) => {
+                    document.body.style.overflow = "hidden";
+                    modal.setAttribute("open", "true");
+                    document.addEventListener("keydown", escClose);
+                    let overlay = document.createElement("div");
+                    overlay.id = "modal-overlay";
+                    document.body.appendChild(overlay);
+                };
+
+                const closeModal = (modal) => {
+                    document.body.style.overflow = "auto";
+                    modal.removeAttribute("open");
+                    document.removeEventListener("keydown", escClose);
+                    document.body.removeChild(document.getElementById("modal-overlay"));
+                };
+
+                const escClose = (e) => {
+                    if (e.keyCode == 27) {
+                        closeModal();
+                    }
+                };
+
+
+                // Rename after click photo
+                try {
+                    document.getElementById("parsel_image").onchange = function () {
+                        var html = `<span><i class='fa fa-check'></i>&nbsp; Photo Captured </span>`;
+                        document.getElementById('button').innerHTML = html;
+                    };
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
+
+
+                //Catch 4 Digit OTP
+                try {
+                    var otp_input = document.getElementById('pickupotp').value;
+                    $('#pickupotp').on('keyup', function () {
+                        var my_value = $(this).val();
+                        if (my_value.length == 4) {
+                            document.getElementById('proceed').style.fontWeight = "700";
+                        }
+                        else {
+                            document.getElementById('proceed').style.fontWeight = "500";
+                        }
+                    });
+                }
+                catch (e) {
+                    console.log(e.message);
+                }
+
+
+
+
+
+
+                // Lower navigation bar 
+                function HomeUrl() {
+                    var url = "http://127.0.0.1:8000/";
+                    document.getElementById('myorder').classList.remove('active');
+                    window.location = url;
+                };
+
+                function MyOrdersUrl() {
+                    var url1 = "http://127.0.0.1:8000/myorders";
+                    var url2 = "http://127.0.0.1:8000/store-notifications";
+                    var url3 = "http://127.0.0.1:8000/get-delivery"
+
+                    document.getElementById('home').classList.remove('active');
+                    if ('{{app_user_type}}' == 'deliver') {
+                        window.location = url3;
+                    }
+                    else if ('{{app_user_type}}' == 'store_owner') {
+                        window.location = url2;
+                    }
+
+                    else {
+                        window.location = url1;
+                    }
+
+                };
+                function AccountUrl() {
+                    var url = "https://techmed.herokuapp.com/myorders";
+                    document.getElementById('home').classList.remove('active');
+                    document.getElementById('myorder').classList.remove('active');
+                    window.location = url;
+                };
+
+                function AccountUrl() {
+                    document.getElementById('home').classList.remove('active');
+                    document.getElementById('myorder').classList.remove('active');
+                }
+            </script>
+</body>

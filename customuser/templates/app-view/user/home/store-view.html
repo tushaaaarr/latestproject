@@ -1,0 +1,218 @@
+{% extends 'app-view/user/layouts/base.html' %}
+{% block title %} {{name}} {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    .main_area {
+        margin-top: 50px !important;
+    }
+
+    /* Prescription box */
+    .image_upload_block2 {
+        margin: 10px;
+        text-align: center;
+    }
+
+    .image_upload_block2 p {
+        margin-bottom: 3px;
+        margin-top: 0px;
+        top: 10px;
+        text-align: center;
+    }
+
+
+
+    #upload_button2 i {
+        font-size: 13px;
+    }
+
+    @media screen and (max-width: 990px) {
+        .main_area {
+            margin-top: 5px;
+        }
+
+        .sec_div {
+            margin-top: 15px;
+        }
+
+        #store_img {
+            width: 200px !important;
+            margin-top: 0px !important;
+            padding: 0px !important;
+            border-radius: 10px;
+
+        }
+    }
+
+    .second_div_sub p {
+        margin: 0px;
+    }
+
+    #getdirection,
+    #upload_button2 {
+        color: #000080;
+        border: 1px solid #000080;
+    }
+
+    #getdirection:hover,
+    #upload_button2:hover {
+        background-color: #000080;
+        border: 1px solid #000080;
+        color: #fff;
+    }
+    .loader {
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<!-- Loader Gif -->
+<div class="loader">
+    <img src="https://www.stamforduniversity.edu.bd/asset/includes/loader/processing.gif" style="width: 100px;">
+</div>
+<div class="container-fluid main_area">
+    <div class="row mt-4">
+        <div class="col-lg-7 mb-lg-0 ">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="d-flex flex-column h-100">
+                                <h5 class="font-weight-bolder">{{name}}</h5>
+                                <div class="second_div_sub">
+                                    <p class="ml-1 font-weight-bolder"> <i class="fa-solid fa-location-dot"></i>Address:
+                                        <span class="font-weight-normal">{{address}}</span>
+                                    </p>
+                                </div>
+                                <div class="second_div_sub">
+                                    <p class="ml-1 font-weight-bolder">Distance: <span
+                                            class="font-weight-normal">{{distance}} Km</span></p>
+                                </div>
+                                <div class="second_div_sub mt-2">
+                                    <button onclick="GetDirection()" class="btn btn-outline" id="getdirection">Get
+                                        Direction&nbsp;&nbsp;
+                                        <i class="fa fa-location-arrow ml-1" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 ms-auto text-center mt-5 mt-lg-0">
+                        <div class="bg-gradient-primary border-radius-lg h-100" style='background:#fff;'>
+                            <img src="/static/assets/img/shapes/waves-white.svg"
+                                class="position-absolute h-100 w-50 top-0 d-lg-block d-none" alt="waves">
+                            <div class="position-relative d-flex align-items-center justify-content-center h-100">
+                                <img class="w-100 position-relative z-index-2 pt-4" id='store_img'
+                                    src="https://imagevars.gulfnews.com/2011/5/23/1_16a080456d7.812096_3905325262_16a080456d7_medium.jpg"
+                                    alt="rocket">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 sec_div">
+        <div class="card h-100 p-3">
+            <div class="image_upload_block2">
+                <br>
+                <span>
+                    <a href="/app-view/medical-store-view/{{myid}}/upload-prescriptions">
+                        <p>Place your order via prescriptions</p>
+                        <button id='upload_button2' class="btn btn-outline">
+                            <i class="fa fa-paperclip"></i> &nbsp; Upload</button>
+                    </a></span>
+                <p class="mt-3">You can order with photo of medicines & product or prescription</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-5 sec_div ">
+    <div class="card h-100 ">
+        <div class="image_upload_block2">
+            <br>
+            <span>
+                <a href="">
+                    <p>Search Medicines, eg. Dolo 650 </p>
+                    <div class="image_upload_block2">
+                        <form action="/app-view/checkout" method="post">
+                            {%csrf_token%}
+                            <span>
+                                <input type="hidden" name="selected_store" value="{{myid}}">
+                                <input type="hidden" name="without_pres" value="NoPres">
+                                <button id='upload_button2' class="btn btn-outline">
+                                    <i class="fa fa-search"></i> Search
+                                    Products</button></span>
+                        </form>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<hr class="line1">
+{% include "includes/footer.html" %}
+
+</div>
+
+
+
+
+{% endblock content %}
+
+{% block javascripts %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script>
+    //Loading gif
+    $(window).load(function () {
+        $(".loader").fadeOut("slow")
+    });
+    var x = document.getElementById("demo");
+    var allowGeoRecall = true;
+    var countLocationAttempts = 0;
+    function GetDirection() {
+        $(".loader").fadeIn("slow")
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        };
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, positionError, options);
+        } else {
+            alert("Geolocation is not supportted by this device .");
+            $(".loader").fadeOut("slow");
+        }
+    }
+    function positionError() {
+        alert('Please allow permissions for location (GPS) .')
+        if (allowGeoRecall && countLocationAttempts < 5) {
+            countLocationAttempts += 1;
+            getLocation();
+        }
+    }
+    function showPosition(position) {
+        $(".loader").fadeOut("slow")
+        const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        var lat = position.coords.latitude;
+        var lon = position.coords.longitude 
+        var store_coord = JSON.parse("{{coord|escapejs}}");
+        var url = "https://www.google.com/maps/dir/" + lat + "," + lon + "/"+store_coord.lat+","+store_coord.lon+""
+        window.open(url,'_blank');
+    }
+</script>
+<!-- Google Api search places -->
+<script async></script>
+{% endblock javascripts %}
